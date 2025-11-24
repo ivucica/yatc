@@ -125,3 +125,28 @@ buildbuddy_deps()
 load("@io_buildbuddy_buildbuddy_toolchain//:rules.bzl", "buildbuddy", "UBUNTU20_04_IMAGE")
 
 buildbuddy(name = "buildbuddy_toolchain", container_image = UBUNTU20_04_IMAGE)
+
+## Begin rules license deps
+http_archive(
+    name = "rules_license",
+    # sha256 = ...,
+    strip_prefix = "rules_license-f27beb61ec306f5466941a1a993249281d05e4be",
+    urls = ["https://github.com/bazelbuild/rules_license/archive/f27beb61ec306f5466941a1a993249281d05e4be.tar.gz"],
+)
+
+http_archive(
+    name = "rules_python",
+    sha256 = "be04b635c7be4604be1ef20542e9870af3c49778ce841ee2d92fcb42f9d9516a",
+    strip_prefix = "rules_python-0.35.0",
+    url = "https://github.com/bazelbuild/rules_python/releases/download/0.35.0/rules_python-0.35.0.tar.gz",
+)
+
+http_archive(
+    name = "rules_pkg",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_pkg/releases/download/1.0.1/rules_pkg-1.0.1.tar.gz",
+        "https://github.com/bazelbuild/rules_pkg/releases/download/1.0.1/rules_pkg-1.0.1.tar.gz",
+    ],
+    sha256 = "d20c951960ed77cb7b341c2a59488534e494d5ad1d30c4818c736d57772a9fef",
+)
+## End rules license deps
