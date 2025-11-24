@@ -1202,6 +1202,13 @@ echo "#endif" >> $@
 
 # sbom
 # via https://github.com/bazelbuild/rules_license/blob/2764cf743325a5962a49de05ef1e6c6c467a5e5b/examples/sboms/BUILD
+#
+# This might depend on 8.0.0+ features:
+# "Error: 'TransitiveMetadataInfo' value has no field or method 'other_metadata'
+# Available attributes: deps, licenses, traces"
+#
+# Filed https://github.com/bazelbuild/rules_license/issues/177
+#
 load("@rules_license//rules_gathering:generate_sbom.bzl", "generate_sbom")
 generate_sbom(
     name = "write_sbom_yatc",

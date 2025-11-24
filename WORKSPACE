@@ -130,15 +130,38 @@ buildbuddy(name = "buildbuddy_toolchain", container_image = UBUNTU20_04_IMAGE)
 http_archive(
     name = "rules_license",
     # sha256 = ...,
-    strip_prefix = "rules_license-f27beb61ec306f5466941a1a993249281d05e4be",
+    strip_prefix = "rules_license-f27beb61ec306f5466941a1a993249281d05e4be",  # post-1.0.0 commit
     urls = ["https://github.com/bazelbuild/rules_license/archive/f27beb61ec306f5466941a1a993249281d05e4be.tar.gz"],
+
+    # Error: 'TransitiveMetadataInfo' value has no field or method 'other_metadata'
+    # Available attributes: deps, licenses, target_under_license, traces
+    # Trying older
+    # bcffeb0c481d178cbee69bdc7e23ef22d3a087b1, 0.0.8, rules_python 0.19 in WORKSPACE (but newer in MODULE.bazel)
+    #sha256 = "8c1155797cb5f5697ea8c6eac6c154cf51aa020e368813d9d9b949558c84f2da"
+    #strip_prefix = "rules_license-0.0.8",
+    #urls = ["https://github.com/bazelbuild/rules_license/archive/0.0.8.tar.gz"],
+
+    # 0.0.6 acee90188bd0f33f6645374e6f438ede05034804
+    # 0.0.5 ... does not matter, also depends on other_metadata.
+    #strip_prefix = "rules_license-0.0.5",
+    #urls = ["https://github.com/bazelbuild/rules_license/archive/0.0.5.tar.gz"],
+
 )
 
 http_archive(
     name = "rules_python",
-    sha256 = "be04b635c7be4604be1ef20542e9870af3c49778ce841ee2d92fcb42f9d9516a",
-    strip_prefix = "rules_python-0.35.0",
-    url = "https://github.com/bazelbuild/rules_python/releases/download/0.35.0/rules_python-0.35.0.tar.gz",
+    #sha256 = "be04b635c7be4604be1ef20542e9870af3c49778ce841ee2d92fcb42f9d9516a",
+    #strip_prefix = "rules_python-0.35.0",
+    #url = "https://github.com/bazelbuild/rules_python/releases/download/0.35.0/rules_python-0.35.0.tar.gz",
+
+    # ERROR: Traceback (most recent call last):
+    #    File "/.../_bazel_xyz/fcbe4622f304082123c08ec520eac28d/external/rules_python/python/private/common/providers.bzl", line 16, column 33, in <toplevel>
+    #            load("@rules_cc//cc:defs.bzl", "CcInfo")
+    # Error: file '@rules_cc//cc:defs.bzl' does not contain symbol 'CcInfo'
+    # Trying older
+    sha256 = "3b8b4cdc991bc9def8833d118e4c850f1b7498b3d65d5698eea92c3528b8cf2c",
+    strip_prefix = "rules_python-0.30.0",
+    url = "https://github.com/bazelbuild/rules_python/releases/download/0.30.0/rules_python-0.30.0.tar.gz",
 )
 
 http_archive(
@@ -149,4 +172,30 @@ http_archive(
     ],
     sha256 = "d20c951960ed77cb7b341c2a59488534e494d5ad1d30c4818c736d57772a9fef",
 )
+
+http_archive(
+    name = "bazel_skylib",
+    sha256 = "bc283cdfcd526a52c3201279cda4bc298652efa898b10b4db0837dc51652756f",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/bazel-skylib/releases/download/1.7.1/bazel-skylib-1.7.1.tar.gz",
+        "https://github.com/bazelbuild/bazel-skylib/releases/download/1.7.1/bazel-skylib-1.7.1.tar.gz",
+    ],
+)
+
+http_archive(
+    name = "bazel_stardoc",
+    sha256 = "c9794dcc8026a30ff67cf7cf91ebe245ca294b20b071845d12c192afe243ad72",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/stardoc/releases/download/0.5.0/stardoc-0.5.0.tar.gz",
+        "https://github.com/bazelbuild/stardoc/releases/download/0.5.0/stardoc-0.5.0.tar.gz",
+    ],
+)
+
+load("@rules_python//python:repositories.bzl", "py_repositories")
+
+py_repositories()
+
+load("@bazel_stardoc//:setup.bzl", "stardoc_repositories")
+
+stardoc_repositories()
 ## End rules license deps
