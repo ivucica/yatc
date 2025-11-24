@@ -1199,3 +1199,13 @@ echo "#endif" >> $@
     """,
     stamp=1,
 )
+
+# sbom
+# via https://github.com/bazelbuild/rules_license/blob/2764cf743325a5962a49de05ef1e6c6c467a5e5b/examples/sboms/BUILD
+load("@rules_license//rules_gathering:generate_sbom.bzl", "generate_sbom")
+generate_sbom(
+    name = "write_sbom_yatc",
+    out = "write_sbom_yatc.txt",
+    deps = ["//:yatc"],
+)
+# end sbom
