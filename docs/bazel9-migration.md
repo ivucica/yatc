@@ -14,10 +14,10 @@ Apply these patches before building with Bazel 9:
 
 1. Initialize submodules:
    - `git submodule update --init --recursive`
-2. Apply the vendored repo patches:
-   - `git -C vendor/github.com/ivucica/rules_tibia apply /home/runner/work/yatc/yatc/patches/bazel/rules_tibia-bazel9.patch`
-   - `git -C vendor/github.com/ivucica/rules_libsdl12 apply /home/runner/work/yatc/yatc/patches/bazel/rules_libsdl12-bazel9.patch`
-   - `git -C vendor/github.com/ivucica/glict apply /home/runner/work/yatc/yatc/patches/bazel/glict-bazel9.patch`
+2. Apply the vendored repo patches from the repository root:
+   - `git -C vendor/github.com/ivucica/rules_tibia apply patches/bazel/rules_tibia-bazel9.patch`
+   - `git -C vendor/github.com/ivucica/rules_libsdl12 apply patches/bazel/rules_libsdl12-bazel9.patch`
+   - `git -C vendor/github.com/ivucica/glict apply patches/bazel/glict-bazel9.patch`
 3. Use Bazel 9 for the module-based build:
    - `bazelisk build //:yatc --define=libsdl12_linux_deps_bin=true`
 4. Use Bazel 6.5.x for the legacy workspace-based build:
