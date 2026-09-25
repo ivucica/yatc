@@ -1,6 +1,9 @@
 # -*- mode: python; -*-
 # vim: set syntax=python:
 
+load("@rules_shell//shell:sh_binary.bzl", "sh_binary")
+load("@rules_shell//shell:sh_library.bzl", "sh_library")
+
 package(
     default_visibility = ["//visibility:public"],
 )

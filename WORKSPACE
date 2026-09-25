@@ -106,6 +106,13 @@ http_archive(
   sha256 = "21bf1f707ef089d576396cdb39d1c4069bce3df69cfab04f7e196ccf130a4884",
 )
 
+http_archive(
+  name = "rules_shell",
+  urls = ["https://github.com/bazelbuild/rules_shell/releases/download/v0.2.0/rules_shell-v0.2.0.tar.gz"],
+  strip_prefix = "rules_shell-0.2.0",
+  sha256 = "410e8ff32e018b9efd2743507e7595c26e2628567c42224411ff533b57d27c28",
+)
+
 # Toolchains for Resource Compilation (.rc files on Windows).
 #load("@bazel_tools//src/main/res:local_config_winsdk.bzl", "local_config_winsdk")
 #local_config_winsdk()

@@ -5,6 +5,7 @@ module(
 
 bazel_dep(name = "glict", version = "0.0.0")
 bazel_dep(name = "rules_libsdl12", version = "0.0.0")
+bazel_dep(name = "rules_shell", version = "0.6.1")
 bazel_dep(name = "rules_tibia", version = "0.0.0")
 
 local_path_override(
@@ -32,6 +33,13 @@ http_archive(
     type = "tar.gz",
     build_file = "//:BUILD.libsdlgfx",
     strip_prefix = "SDL_gfx-2.0.24",
+)
+
+http_archive(
+    name = "hedron_compile_commands",
+    url = "https://github.com/hedronvision/bazel-compile-commands-extractor/archive/ed994039a951b736091776d677f324b3903ef939.tar.gz",
+    strip_prefix = "bazel-compile-commands-extractor-ed994039a951b736091776d677f324b3903ef939",
+    sha256 = "085bde6c5212c8c1603595341ffe7133108034808d8c819f8978b2b303afc9e7",
 )
 
 yatc_local = use_extension("//:module_extensions.bzl", "yatc_local_repositories")
