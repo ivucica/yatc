@@ -6,7 +6,20 @@ def _symlink_local_repository_impl(ctx):
             continue
         ctx.symlink(entry, entry.basename)
 
-    if ctx.attr.module_name and not ctx.path("MODULE.bazel").exists():
+    for metadata in [
+        "MODULE.bazel",
+        "WORKSPACE",
+        "WORKSPACE.bazel",
+        ".bazelignore",
+        ".bazelrc",
+        ".bazelversion",
+        ".bazelminversion",
+    ]:
+        source_metadata = source.get_child(metadata)
+        if source_metadata.exists() and not ctx.path(metadata).exists():
+            ctx.symlink(source_metadata, metadata)
+
+    if ctx.attr.module_name and not source.get_child("MODULE.bazel").exists():
         ctx.file('MODULE.bazel', 'module(name = "' + ctx.attr.module_name + '", version = "0.0.0")\n')
 
     if ctx.attr.build_file_content and not ctx.path("BUILD").exists() and not ctx.path("BUILD.bazel").exists():
