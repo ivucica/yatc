@@ -1,5 +1,5 @@
 diff --git a/tibia_data.bzl b/tibia_data.bzl
-index fc51165..3257a2a 100644
+index fc51165..714e255 100644
 --- a/tibia_data.bzl
 +++ b/tibia_data.bzl
 @@ -48,6 +48,16 @@ def tibia_data_repositories():
@@ -7,7 +7,7 @@ index fc51165..3257a2a 100644
  
  
 +def _tibia_data_extension_impl(module_ctx):
-+    del module_ctx
++    module_ctx.modules
 +    tibia_data_repositories()
 +
 +

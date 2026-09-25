@@ -4,6 +4,7 @@ module(
 )
 
 bazel_dep(name = "glict", version = "0.0.0")
+bazel_dep(name = "libsdlgfx", version = "0.0.0")
 bazel_dep(name = "rules_libsdl12", version = "0.0.0")
 bazel_dep(name = "rules_cc", version = "0.2.14")
 bazel_dep(name = "rules_shell", version = "0.6.1")
@@ -12,6 +13,10 @@ bazel_dep(name = "rules_tibia", version = "0.0.0")
 local_path_override(
     module_name = "glict",
     path = "vendor/github.com/ivucica/glict",
+)
+local_path_override(
+    module_name = "libsdlgfx",
+    path = "third_party/SDL_gfx-2.0.24",
 )
 local_path_override(
     module_name = "rules_libsdl12",
@@ -25,15 +30,6 @@ local_path_override(
 http_archive = use_repo_rule(
     "@bazel_tools//tools/build_defs/repo:http.bzl",
     "http_archive",
-)
-
-http_archive(
-    name = "libsdlgfx",
-    url = "https://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.24.tar.gz",
-    sha256 = "30ad38c3e17586e5212ce4a43955adf26463e69a24bb241f152493da28d59118",
-    type = "tar.gz",
-    build_file = "//:BUILD.libsdlgfx",
-    strip_prefix = "SDL_gfx-2.0.24",
 )
 
 http_archive(

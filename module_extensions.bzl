@@ -1,5 +1,6 @@
 def _symlink_local_repository_impl(ctx):
-    source = ctx.path(ctx.attr.path)
+    workspace_root = ctx.path(Label("//:MODULE.bazel")).dirname
+    source = workspace_root.get_child(ctx.attr.path)
 
     for entry in source.readdir():
         if entry.basename == ".git":
@@ -16,13 +17,13 @@ def _symlink_local_repository_impl(ctx):
         ".bazelminversion",
     ]:
         source_metadata = source.get_child(metadata)
-        if source_metadata.exists() and not ctx.path(metadata).exists():
+        if source_metadata.exists and not ctx.path(metadata).exists:
             ctx.symlink(source_metadata, metadata)
 
-    if ctx.attr.module_name and not source.get_child("MODULE.bazel").exists():
+    if ctx.attr.module_name and not source.get_child("MODULE.bazel").exists:
         ctx.file('MODULE.bazel', 'module(name = "' + ctx.attr.module_name + '", version = "0.0.0")\n')
 
-    if ctx.attr.build_file_content and not ctx.path("BUILD").exists() and not ctx.path("BUILD.bazel").exists():
+    if ctx.attr.build_file_content and not ctx.path("BUILD").exists and not ctx.path("BUILD.bazel").exists:
         ctx.file("BUILD.bazel", ctx.attr.build_file_content)
 
 
@@ -37,7 +38,7 @@ symlink_local_repository = repository_rule(
 
 
 def _yatc_local_repositories_impl(module_ctx):
-    del module_ctx
+    module_ctx.modules
 
     symlink_local_repository(
         name = "bazelregistry_sdl2",
@@ -49,6 +50,8 @@ def _yatc_local_repositories_impl(module_ctx):
         path = "vendor/github.com/libtom/libtommath",
         module_name = "tommath",
         build_file_content = """
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
 config_setting(
     name = 'windows',
     values = {'host_cpu': 'x64_windows'},
@@ -65,6 +68,7 @@ cc_library(
   name='tommath',
   srcs=glob(['*.c']),
   hdrs=glob(['*.h']),
+  includes = ['.'],
   visibility=['//visibility:public'],
   defines = select({
     '//conditions:default': [],
@@ -72,12 +76,6 @@ cc_library(
     ':windows': ['MP_32BIT'],
     ':windows_msys': ['MP_32BIT'],
     ':windows_msvc': ['MP_32BIT'],
-  }),
-  copts = select({
-    '//conditions:default': ['-isystem external/tommath'],
-    ':windows': ['-I external/tommath'],
-    ':windows_msys': ['-I external/tommath'],
-    ':windows_msvc': ['-I external/tommath'],
   }),
 )
 """,

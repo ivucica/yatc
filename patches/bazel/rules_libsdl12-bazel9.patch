@@ -1,5 +1,269 @@
+diff --git a/BUILD.libsdl12 b/BUILD.libsdl12
+index f1bfbf6..6b50520 100644
+--- a/BUILD.libsdl12
++++ b/BUILD.libsdl12
+@@ -1,6 +1,8 @@
+ # -*- mode: python; -*-
+ # vim: set syntax=python:
+ 
++load("@rules_cc//cc:defs.bzl", "cc_library")
++
+ workspace_name = repository_name()[1:]
+ 
+ config_setting(
+@@ -65,7 +67,7 @@ cc_library(
+         #"src/video/Xext/*.c",     "src/video/Xext/*.h",
+         "src/video/Xext/extensions/*.h",
+ 
+-        ]) + select({
++        ], allow_empty = True) + select({
+             ":darwin": glob([
+                 "src/audio/macosx/*.c",   "src/audio/macosx/*.h",
+                 "src/cdrom/macosx/*.c",   "src/cdrom/macosx/*.h",
+@@ -80,7 +82,7 @@ cc_library(
+                 "src/timer/unix/*.c",     "src/timer/unix/*.h",
+                 "src/thread/generic/SDL_syssem.c",
+                 "src/thread/generic/SDL_systhread_c.h",
+-            ], exclude=[
++            ], allow_empty = True, exclude=[
+                 "src/video/quartz/SDL_QuartzVideo.h",  # see [patch2]
+                 "src/thread/pthread/SDL_syssem.c", # this merely includes generic syssem.c anyway.
+             ]) + [
+@@ -101,7 +103,7 @@ cc_library(
+                 "src/thread/win32/SDL_systhread_c.h",
+                 "src/thread/win32/SDL_systhread.h",
+                 "src/timer/win32/*.c",     "src/timer/win32/*.h",
+-            ]),
++            ], allow_empty = True),
+             ":windows_msys": glob([
+                 "src/video/wincommon/*.c", "src/video/wincommon/*.h",
+                 "src/video/windib/*.c",    "src/video/windib/*.h",
+@@ -116,7 +118,7 @@ cc_library(
+                 "src/thread/win32/SDL_systhread_c.h",
+                 "src/thread/win32/SDL_systhread.h",
+                 "src/timer/win32/*.c",     "src/timer/win32/*.h",
+-            ]),
++            ], allow_empty = True),
+             ":windows_msvc": glob([
+                 "src/video/wincommon/*.c", "src/video/wincommon/*.h",
+                 "src/video/windib/*.c",    "src/video/windib/*.h",
+@@ -131,7 +133,7 @@ cc_library(
+                 "src/thread/win32/SDL_systhread_c.h",
+                 "src/thread/win32/SDL_systhread.h",
+                 "src/timer/win32/*.c",     "src/timer/win32/*.h",
+-            ]),
++            ], allow_empty = True),
+             "//conditions:default": glob([
+                 "src/video/x11/*.c",      "src/video/x11/*.h",
+                 "src/video/dga/*.c",      "src/video/dga/*.h",
+@@ -148,13 +150,13 @@ cc_library(
+                 "src/video/Xext/Xxf86vm/*.c", "src/video/Xext/Xxf86vm/*.h",
+                 "src/video/Xext/Xinerama/*.c", "src/video/Xext/Xinerama/*.h",
+                 "src/timer/unix/*.c",     "src/timer/unix/*.h",
+-            ], exclude=[
++            ], allow_empty = True, exclude=[
+                 "src/video/x11/SDL_x11sym.h",  # see [patch1]
+             ]) + [
+                 "patch1/src/video/x11/SDL_x11sym.h",  # see [patch1]
+             ],
+         }),
+-    hdrs = [i.replace("include/", "SDL/") for i in glob(["include/*.h"])],
++    hdrs = [i.replace("include/", "SDL/") for i in glob(["include/*.h"], allow_empty = True)],
+     includes = [
+         ".", "SDL",
+         "src/thread",
+@@ -167,12 +169,12 @@ cc_library(
+           "patch2", "patch2/src/video/quartz", # see [patch2]
+           "external/libx11-dev/usr/include",
+           "external/libxext-dev/usr/include",
+-          "external/x11proto-dev/usr/include", # TODO: only if bin debs are used; or make x11repository expose these
+-          "external/libx11-xcb-dev/usr/include", # TODO: only if bin debs are used; or make x11repository expose these
+-          "external/libxcb1-dev/usr/include", # TODO: only if bin debs are used; or make x11repository expose these
+-          "external/libxdmcp-dev/usr/include", # TODO: only if bin debs are used; or make x11repository expose these
+-          "external/libalsaplayer-dev/usr/include", # TODO: only if bin debs are used; or make x11repository expose these
+-          "external/libasound2-dev/usr/include", # TODO: only if bin debs are used; or make x11repository expose these
++          "external/x11proto-dev/usr/include",
++          "external/libx11-xcb-dev/usr/include",
++          "external/libxcb1-dev/usr/include",
++          "external/libxdmcp-dev/usr/include",
++          "external/libalsaplayer-dev/usr/include",
++          "external/libasound2-dev/usr/include",
+         ],
+     }),
+     copts = [
+@@ -186,14 +188,29 @@ cc_library(
+         ":windows_msvc": [],
+         "//conditions:default": [
+             "-DSDL_VIDEO_DRIVER_X11", # TODO: only define X11 driver like this for deb binary builds -- possibly only needed because of missing pkgconfig data?
+-            "-isystem", "external/libx11-dev/usr/include", # TODO: only if bin debs are used; or make x11repository expose these
+-            "-isystem", "external/libxext-dev/usr/include", # TODO: only if bin debs are used; or make x11repository expose these
+-            "-isystem", "external/x11proto-dev/usr/include", # TODO: only if bin debs are used; or make x11repository expose these
+-            "-isystem", "external/libx11-xcb-dev/usr/include", # TODO: only if bin debs are used; or make x11repository expose these
+-            "-isystem", "external/libxcb1-dev/usr/include", # TODO: only if bin debs are used; or make x11repository expose these
+-            "-isystem", "external/libxdmcp-dev/usr/include", # TODO: only if bin debs are used; or make x11repository expose these
+-            "-isystem", "external/libalsaplayer-dev/usr/include", # TODO: only if bin debs are used; or make x11repository expose these
+-            "-isystem", "external/libasound2-dev/usr/include", # TODO: only if bin debs are used; or make x11repository expose these
++            "-isystem", "external/libx11-dev/usr/include",
++            "-isystem", "external/libxext-dev/usr/include",
++            "-isystem", "external/x11proto-dev/usr/include",
++            "-isystem", "external/libx11-xcb-dev/usr/include",
++            "-isystem", "external/libxcb1-dev/usr/include",
++            "-isystem", "external/libxau-dev/usr/include",
++            "-isystem", "external/libxdmcp-dev/usr/include",
++            "-isystem", "external/libalsaplayer-dev/usr/include",
++            "-isystem", "external/libasound2-dev/usr/include",
++            "-isystem", "external/libgl-dev/usr/include",
++            "-isystem", "external/libglu1-mesa-dev/usr/include",
++            "-isystem", "external/rules_libsdl12++libsdl12_extension+libx11-dev/usr/include",
++            "-isystem", "external/rules_libsdl12++libsdl12_extension+libxext-dev/usr/include",
++            "-isystem", "external/rules_libsdl12++libsdl12_extension+x11proto-dev",
++            "-isystem", "external/rules_libsdl12++libsdl12_extension+x11proto-dev/usr/include",
++            "-isystem", "external/rules_libsdl12++libsdl12_extension+libx11-xcb-dev/usr/include",
++            "-isystem", "external/rules_libsdl12++libsdl12_extension+libxcb1-dev/usr/include",
++            "-isystem", "external/rules_libsdl12++libsdl12_extension+libxau-dev/usr/include",
++            "-isystem", "external/rules_libsdl12++libsdl12_extension+libxdmcp-dev/usr/include",
++            "-isystem", "external/rules_libsdl12++libsdl12_extension+libalsaplayer-dev/usr/include",
++            "-isystem", "external/rules_libsdl12++libsdl12_extension+libasound2-dev/usr/include",
++            "-isystem", "external/rules_libsdl12++libsdl12_extension+libgl-dev/usr/include",
++            "-isystem", "external/rules_libsdl12++libsdl12_extension+libglu1-mesa-dev/usr/include",
+         ],
+     }),
+     linkopts = select({
+@@ -230,7 +247,8 @@ cc_library(
+         ],
+         "//conditions:default": [
+             "-ldl",
+-            "-lalsaplayer", "-Lexternal/libalsaplayer-dev/usr/lib/x86_64-linux-gnu", # why is -L required for deb builds?
++            "-Lexternal/libalsaplayer-dev/usr/lib/x86_64-linux-gnu",
++            "-lalsaplayer", "-Lexternal/rules_libsdl12++libsdl12_extension+libalsaplayer-dev/usr/lib/x86_64-linux-gnu", # why is -L required for deb builds?
+             "-pthread",
+         ],
+     }) + select({
+@@ -248,6 +266,14 @@ cc_library(
+         ":windows_msys": [],
+         ":windows_msvc": [],
+         "//conditions:default": [
++          "@libx11-dev//:hdrs",
++          "@libxext-dev//:hdrs",
++          "@x11proto-dev//:hdrs",
++          "@libx11-xcb-dev//:hdrs",
++          "@libxcb1-dev//:hdrs",
++          "@libxdmcp-dev//:hdrs",
++          "@libalsaplayer-dev//:hdrs",
++          "@libasound2-dev//:hdrs",
+           "@x11repository//:X11",
+           "@x11repository//:Xext",
+         ],
+@@ -298,8 +324,8 @@ genrule(
+             # see [patch2] for more info
+             "src/video/quartz/SDL_QuartzVideo.h", "e9466ead70e5.patch", "bbfb41c13a87.patch",
+             ],
+-    }) + glob(["build-scripts/*", "include/*.h"]),
+-    outs = [i.replace("include", "SDL") for i in glob(["include/*.h"])] + [
++    }) + glob(["build-scripts/*", "include/*.h"], allow_empty = True),
++    outs = [i.replace("include", "SDL") for i in glob(["include/*.h"], allow_empty = True)] + [
+           "configure.consoleoutput",
+ 
+           # see [patch1] for more info
+@@ -394,7 +420,7 @@ genrule(
+     outs = ["objc" + i.replace(" ", "_") + ".c" for i in glob([
+         "src/video/quartz/*.m",
+         "Xcode/TemplatesForXcodeSnowLeopard/SDL Cocoa Application/*.m",
+-        ])],
++        ], allow_empty = True)],
+     cmd = "\n".join(["echo '$(SRCS)' | sed 's/ external/@external/g'",
+         "export IFS=\"@\n\"",
+         "for i in $$(echo '$(SRCS)' | sed 's/ external/@external/g')",
+@@ -424,13 +450,13 @@ genrule(
+ 
+ cc_library(
+     name = "sdlobjc",
+-    srcs = (["objc" + i + ".c" for i in glob(["src/video/quartz/*.m"])] +
+-        glob(["src/video/quartz/*.h", "src/video/*.h", "src/events/*.h"], exclude=[
++    srcs = (["objc" + i + ".c" for i in glob(["src/video/quartz/*.m"], allow_empty = True)] +
++        glob(["src/video/quartz/*.h", "src/video/*.h", "src/events/*.h"], allow_empty = True, exclude=[
+                 "src/video/quartz/SDL_QuartzVideo.h",  # see [patch2]
+             ]) + [
+                 "patch2/src/video/quartz/SDL_QuartzVideo.h",  # see [patch2]
+             ] +
+-        [i.replace("include/", "SDL/") for i in glob(["include/*.h"])]),
++        [i.replace("include/", "SDL/") for i in glob(["include/*.h"], allow_empty = True)]),
+     includes = [".", "SDL", "patch2", "patch2/src/video/quartz", "external/libx11-dev/usr/include", "external/libxext-dev/usr/include"],
+     copts = [
+         "-x", "objective-c",
+diff --git a/BUILD.x11helper b/BUILD.x11helper
+index b41bb0f..c2a5819 100644
+--- a/BUILD.x11helper
++++ b/BUILD.x11helper
+@@ -1,6 +1,8 @@
+ # -*- mode: python; -*-
+ # vim: set syntax=python:
+ 
++load("@rules_cc//cc:defs.bzl", "cc_import", "cc_library")
++
+ config_setting(
+     name = "windows",
+     values = {"cpu": "x64_windows"}
+@@ -24,8 +26,9 @@ config_setting(
+     values = {"define": "libsdl12_linux_deps_bin=true"},
+ )
+ 
+-cc_import(
++cc_library(
+     name = "X11",
++    includes = [".", "usr/include"],
+     hdrs = select({
+         "//conditions:default": [
+           "//:Xlib.h",
+@@ -63,11 +66,25 @@ cc_import(
+         ":windows_msys": [],
+         ":windows_msvc": [],
+       }),
++    deps = select({
++        "//conditions:default": [],
++        ":linux_deps_bin": [
++          "@libx11-dev//:hdrs",
++          "@x11proto-dev//:hdrs",
++          "@libxcb1-dev//:hdrs",
++          "@libx11-xcb-dev//:hdrs",
++          "@libxdmcp-dev//:hdrs",
++        ],
++        ":windows": [],
++        ":windows_msys": [],
++        ":windows_msvc": [],
++      }),
+     visibility = ["//visibility:public"],
+ )
+ 
+-cc_import(
++cc_library(
+     name = "Xext",
++    includes = [".", "usr/include"],
+     hdrs = select({
+         "//conditions:default": [
+           "//:extensions/XShm.h",
+@@ -89,5 +106,19 @@ cc_import(
+         ":windows_msys": [],
+         ":windows_msvc": [],
+       }),
++    deps = select({
++        "//conditions:default": [],
++        ":linux_deps_bin": [
++          "@libx11-dev//:hdrs",
++          "@libxext-dev//:hdrs",
++          "@x11proto-dev//:hdrs",
++          "@libxcb1-dev//:hdrs",
++          "@libx11-xcb-dev//:hdrs",
++          "@libxdmcp-dev//:hdrs",
++        ],
++        ":windows": [],
++        ":windows_msys": [],
++        ":windows_msvc": [],
++      }),
+     visibility = ["//visibility:public"],
+ )
 diff --git a/libsdl12.bzl b/libsdl12.bzl
-index 4da5b99..8e53e13 100644
+index 4da5b99..958a565 100644
 --- a/libsdl12.bzl
 +++ b/libsdl12.bzl
 @@ -44,3 +44,13 @@ def libsdl12_repositories():
@@ -9,7 +273,7 @@ index 4da5b99..8e53e13 100644
 +
 +
 +def _libsdl12_extension_impl(module_ctx):
-+    del module_ctx
++    module_ctx.modules
 +    libsdl12_repositories()
 +
 +
@@ -17,10 +281,282 @@ index 4da5b99..8e53e13 100644
 +    implementation = _libsdl12_extension_impl,
 +)
 diff --git a/x11-helper.bzl b/x11-helper.bzl
-index 44f9e86..9d9d2a0 100644
+index 44f9e86..373284c 100644
 --- a/x11-helper.bzl
 +++ b/x11-helper.bzl
-@@ -801,14 +801,23 @@ def x11_repository():
+@@ -69,6 +69,8 @@ def _recurse_collect_files(repository_ctx, root_dir):  #, entries):
+ 
+ def _x11_deb_repository_rule_impl(repository_ctx):
+ 
++    repo_name = repository_ctx.name.rsplit("+", 1)[-1]
++
+     if repository_ctx.os.name != 'linux':
+         # Ideally we would leave this empty for non-Debian targets (or when we
+         # do not want to use Debian binaries as a source of headers and
+@@ -84,6 +86,7 @@ def _x11_deb_repository_rule_impl(repository_ctx):
+         root = repository_ctx.path("usr")
+ 
+         buildfile = '\n'.join([
++            'load("@rules_cc//cc:defs.bzl", "cc_import", "cc_library")',
+             'cc_import(',
+             '  name = "hdrs",',
+             '  hdrs = [],',
+@@ -95,7 +98,7 @@ def _x11_deb_repository_rule_impl(repository_ctx):
+             '  visibility = ["//visibility:public"],',
+             ')',
+             'cc_import(',
+-            '  name = "' + repository_ctx.name + '",',
++            '  name = "' + repo_name + '",',
+             '  hdrs = [],',
+             '  visibility = ["//visibility:public"],',
+             ')',
+@@ -136,16 +139,16 @@ def _x11_deb_repository_rule_impl(repository_ctx):
+     root = repository_ctx.path("usr")
+     hdrs, libs = _recurse_collect_files(repository_ctx, root)  # .readdir())
+ 
+-    r = ""
++    r = 'load("@rules_cc//cc:defs.bzl", "cc_import", "cc_library")\n'
+ 
+     r += 'load("@rules_libsdl12//:x11-helper.bzl", "dedup")\n\n'
+ 
+     extra_lib_deps = []
+ 
+-    repository_ctx.file("usr/include/dummy-" + repository_ctx.name + ".h", '/* dummy file, a hack to make "includes=" propagate the -isystem/-iquote/-I correctly */')
+-    repository_ctx.file("dummy-" + repository_ctx.name + ".h", '/* dummy file, a hack to make "includes=" propagate the -isystem/-iquote/-I correctly */')
++    repository_ctx.file("usr/include/dummy-" + repo_name + ".h", '/* dummy file, a hack to make "includes=" propagate the -isystem/-iquote/-I correctly */')
++    repository_ctx.file("dummy-" + repo_name + ".h", '/* dummy file, a hack to make "includes=" propagate the -isystem/-iquote/-I correctly */')
+ 
+-    if repository_ctx.name == "libx11-dev":
++    if repo_name == "libx11-dev":
+         # libX11 which we have insists on reallocarray, but it is not available in buildbuddy's environment.
+         # http://lists.busybox.net/pipermail/buildroot/2022-May/643818.html
+         # TODO: figure out a test for this at build-time
+@@ -155,27 +158,27 @@ def _x11_deb_repository_rule_impl(repository_ctx):
+         extra_lib_deps.append('"@libx11-6//:libx11-6"')
+         extra_lib_deps.append('"@libx11-6//:libX11"')
+ 
+-    if repository_ctx.name == "libxcb1-dev":
++    if repo_name == "libxcb1-dev":
+         extra_lib_deps.append('"@libxcb1//:libxcb1"')
+         extra_lib_deps.append('"@libxcb1//:libxcb"')
+ 
+-    if repository_ctx.name == "libxau-dev":
++    if repo_name == "libxau-dev":
+         extra_lib_deps.append('"@libxau6//:libxau6"')
+         extra_lib_deps.append('"@libxau6//:libXau"')
+ 
+-    if repository_ctx.name == "libxdmcp-dev":
++    if repo_name == "libxdmcp-dev":
+         extra_lib_deps.append('"@libxdmcp6//:libxdmcp6"')
+         extra_lib_deps.append('"@libxdmcp6//:libXdmcp"')
+ 
+-    if repository_ctx.name == "libgl-dev":
++    if repo_name == "libgl-dev":
+         extra_lib_deps.append('"@libgl1//:libgl1"')
+         extra_lib_deps.append('"@libgl1//:libGL"')
+ 
+-    if repository_ctx.name == "libglu1-mesa-dev":
++    if repo_name == "libglu1-mesa-dev":
+         extra_lib_deps.append('"@libglu1-mesa//:libglu1-mesa"')
+         extra_lib_deps.append('"@libglu1-mesa//:libGLU"')
+ 
+-    if repository_ctx.name == "libgl1":
++    if repo_name == "libgl1":
+         extra_lib_deps.append('"@libglapi-mesa//:libglapi-mesa"')
+         extra_lib_deps.append('"@libglapi-mesa//:libglapi"')
+ 
+@@ -198,22 +201,22 @@ def _x11_deb_repository_rule_impl(repository_ctx):
+                     _removeprefix(str(repository_ctx.path(e)), str(repository_ctx.path("./usr/include")) + "/"),
+                 )
+ 
+-    if repository_ctx.name == "libx11-6":
++    if repo_name == "libx11-6":
+         libs = _copy_and_alias(repository_ctx, libs, "libX11.so.6.3.0", ["libX11.so.6", "libX11.so"])
+ 
+         r += 'cc_library(name="libX11", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libxcb1":
++    if repo_name == "libxcb1":
+         libs = _copy_and_alias(repository_ctx, libs, "libxcb.so.1.1.0", ["libxcb.so.1", "libxcb.so"])
+ 
+         r += 'cc_library(name="libxcb", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libxau6":
++    if repo_name == "libxau6":
+         libs = _copy_and_alias(repository_ctx, libs, "libXau.so.6.0.0", ["libXau.so.6", "libXau.so"])
+ 
+         r += 'cc_library(name="libXau", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libxdmcp6":
++    if repo_name == "libxdmcp6":
+         libs = _copy_and_alias(repository_ctx, libs, "libXdmcp.so.6.0.0", ["libXdmcp.so.6", "libXdmcp.so"])
+ 
+         # deps from lddtree:
+@@ -228,25 +231,25 @@ def _x11_deb_repository_rule_impl(repository_ctx):
+ 
+         r += 'cc_library(name="libXdmcp", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], deps=[' + deps_str + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libx11-xcb1":
++    if repo_name == "libx11-xcb1":
+         libs = sorted([e for e in libs if "libX11-xcb.so" in str(e)], key = lambda e: len(str(e)), reverse = True)
+         libs = _copy_and_alias(repository_ctx, libs, "libX11-xcb.so.1.0.0", ["libX11-xcb.so.1", "libX11-xcb.so"])
+ 
+         r += 'cc_library(name="libx11-xcb", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libgl1":
++    if repo_name == "libgl1":
+         libs = _copy_and_alias(repository_ctx, libs, "libGL.so.1.7.0", ["libGL.so.1", "libGL.so"])
+ 
+         r += 'cc_library(name="libGL", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"], deps=["@libglvnd0//:libGLdispatch"])\n'
+         extra_lib_deps.append('"@libglvnd0//:libGLdispatch"')
+         extra_lib_deps.append('"@libglx0//:libGLX"')
+ 
+-    if repository_ctx.name == "libglu1-mesa":
++    if repo_name == "libglu1-mesa":
+         libs = _copy_and_alias(repository_ctx, libs, "libGLU.so.1.3.1", ["libGLU.so.1", "libGLU.so"])
+ 
+         r += 'cc_library(name="libGLU", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libglvnd0":
++    if repo_name == "libglvnd0":
+         libs = _copy_and_alias(repository_ctx, libs, "libGLdispatch.so.0.0.0", ["libGLdispatch.so.0", "libGLdispatch.so"])
+ 
+         # THIS DOES NOTHING: Our real problem is BuildBuddy's default platform is Ubuntu 16.04, so linking to GLIBC 2.34 is not going to happen.
+@@ -254,7 +257,7 @@ def _x11_deb_repository_rule_impl(repository_ctx):
+         r += 'cc_library(name="dl", srcs=["dl_dummy.c"], alwayslink=1, linkopts=["-ldl"])\n'
+         r += 'cc_library(name="libGLdispatch", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], linkopts=["-ldl"], deps=[":dl"], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libglx-mesa0":
++    if repo_name == "libglx-mesa0":
+         # expected that libs[0] will be libGLX_mesa.so.0{,.0.0}, not libGLX_indirect.so.0
+         libs = [e for e in libs if 'libGLX_mesa' in str(e)]
+         libs = _copy_and_alias(repository_ctx, libs, "libGLX_mesa.so.0.0.0", ["libGLX_mesa.so.0", "libGLX_mesa.so"])
+@@ -295,75 +298,75 @@ def _x11_deb_repository_rule_impl(repository_ctx):
+ 
+         r += 'cc_library(name="libGLX_mesa", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], deps=[' + deps_str + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libglx0":
++    if repo_name == "libglx0":
+         libs = [e for e in libs if 'libGLX.so.0.0.0' in str(e)]
+         libs = _copy_and_alias(repository_ctx, libs, "libGLX.so.0.0.0", ["libGLX.so.0", "libGLX.so"])
+ 
+         r += 'cc_library(name="libGLX", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"], deps=["@libglvnd0//:libGLdispatch", "@libglx-mesa0//:libGLX_mesa"])\n'
+ 
+-    if repository_ctx.name == "libglapi-mesa":
++    if repo_name == "libglapi-mesa":
+         libs = _copy_and_alias(repository_ctx, libs, "libglapi.so.0.0.0", ["libglapi.so.0", "libglapi.so"])
+ 
+         r += 'cc_library(name="libglapi", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libxext6":
++    if repo_name == "libxext6":
+         libs = _copy_and_alias(repository_ctx, libs, "libXext.so.6.4.0", ["libXext.so.6", "libXext.so"])
+         r += 'cc_library(name="libXext", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libxfixes3":
++    if repo_name == "libxfixes3":
+         libs = _copy_and_alias(repository_ctx, libs, "libXfixes.so.3.1.0", ["libXfixes.so.3", "libXfixes.so"])
+         r += 'cc_library(name="libXfixes", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libxxf86vm1":
++    if repo_name == "libxxf86vm1":
+         libs = _copy_and_alias(repository_ctx, libs, "libXxf86vm.so.1.0.0", ["libXxf86vm.so.1", "libXxf86vm.so"])
+         r += 'cc_library(name="libXxf86vm", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libxcb-glx0":
++    if repo_name == "libxcb-glx0":
+         libs = _copy_and_alias(repository_ctx, libs, "libxcb-glx.so.0.0.0", ["libxcb-glx.so.0", "libxcb-glx.so"])
+         r += 'cc_library(name="libxcb-glx", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libxcb-dri2-0":
++    if repo_name == "libxcb-dri2-0":
+         libs = _copy_and_alias(repository_ctx, libs, "libxcb-dri2.so.0.0.0", ["libxcb-dri2.so.0", "libxcb-dri2.so"])
+         r += 'cc_library(name="libxcb-dri2", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libxcb-dri3-0":
++    if repo_name == "libxcb-dri3-0":
+         libs = _copy_and_alias(repository_ctx, libs, "libxcb-dri3.so.0.0.0", ["libxcb-dri3.so.0", "libxcb-dri3.so"])
+         r += 'cc_library(name="libxcb-dri3", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libxcb-present0":
++    if repo_name == "libxcb-present0":
+         libs = _copy_and_alias(repository_ctx, libs, "libxcb-present.so.0.0.0", ["libxcb-present.so.0", "libxcb-present.so"])
+         r += 'cc_library(name="libxcb-present", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libxcb-sync1":
++    if repo_name == "libxcb-sync1":
+         libs = _copy_and_alias(repository_ctx, libs, "libxcb-sync.so.1.0.0", ["libxcb-sync.so.1", "libxcb-sync.so"])
+         r += 'cc_library(name="libxcb-sync", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libxcb-xfixes0":
++    if repo_name == "libxcb-xfixes0":
+         libs = _copy_and_alias(repository_ctx, libs, "libxcb-xfixes.so.0.0.0", ["libxcb-xfixes.so.0", "libxcb-xfixes.so"])
+         r += 'cc_library(name="libxcb-xfixes", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libxcb-shm0":
++    if repo_name == "libxcb-shm0":
+         libs = sorted([e for e in libs if "libxcb-shm.so" in str(e)], key = lambda e: len(str(e)), reverse = True)
+         libs = _copy_and_alias(repository_ctx, libs, "libxcb-shm.so.0.0.0", ["libxcb-shm.so.0", "libxcb-shm.so"])
+         r += 'cc_library(name="libxcb-shm", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libxshmfence1":
++    if repo_name == "libxshmfence1":
+         libs = _copy_and_alias(repository_ctx, libs, "libxshmfence.so.1.0.0", ["libxshmfence.so.1", "libxshmfence.so"])
+         r += 'cc_library(name="libxshmfence", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libdrm2":
++    if repo_name == "libdrm2":
+         libs = _copy_and_alias(repository_ctx, libs, "libdrm.so.2.4.0", ["libdrm.so.2", "libdrm.so"])
+         r += 'cc_library(name="libdrm", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libexpat1":
++    if repo_name == "libexpat1":
+         libs = _copy_and_alias(repository_ctx, libs, "libexpat.so.1.6.0", ["libexpat.so.1", "libexpat.so"])
+         r += 'cc_library(name="libexpat", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libbsd0":
++    if repo_name == "libbsd0":
+         libs = _copy_and_alias(repository_ctx, libs, "libbsd.so.0.8.0", ["libbsd.so.0", "libbsd.so"])
+         r += 'cc_library(name="libbsd", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+-    if repository_ctx.name == "libmd0":
++    if repo_name == "libmd0":
+         libs = _copy_and_alias(repository_ctx, libs, "libmd.so.0.0.2", ["libmd.so.0", "libmd.so"])
+         r += 'cc_library(name="libmd", srcs=[' + ",".join(['":' + str(e) + '"' for e in libs]) + '], visibility=["//visibility:public"])\n'
+ 
+@@ -374,12 +377,13 @@ def _x11_deb_repository_rule_impl(repository_ctx):
+         r += ("\n".join([
+             "cc_library(",
+             '    name="hdrs",',
++            '    hdrs=["dummy-' + repo_name + '.h", "usr/include/dummy-' + repo_name + '.h"],',
+             "    includes=dedup([",  # if we used cc_library, these would be 'includes='; for cc_import, it's hdrs
+             # Do NOT use labels / colons in cc_library includes=.
+             '        ".",',
+             '        "usr/include",',
+-            #'        "usr/include/dummy-' + repository_ctx.name + '.h",\n' +
+-            #'        "dummy-' + repository_ctx.name + '.h",\n' +
++            #'        "usr/include/dummy-' + repo_name + '.h",\n' +
++            #'        "dummy-' + repo_name + '.h",\n' +
+             "        " + ",\n        ".join(['"' + _removeprefix(str(repository_ctx.path(e).dirname), str(repository_ctx.path(".")) + "/") + '"' for e in hdrs]) + ",\n" +
+             "        " + ",\n        ".join(['"' + _removeprefix(str(repository_ctx.path(e).dirname.dirname), str(repository_ctx.path(".")) + "/") + '"' for e in hdrs]) + ",\n" +
+             #'        ' + ',\n        '.join(['"' + str(e) + '"' for e in hdrs]) + ',\n' +
+@@ -420,12 +424,12 @@ def _x11_deb_repository_rule_impl(repository_ctx):
+ 
+     r += ("\n".join([
+         "cc_import(",
+-        '    name="' + repository_ctx.name + '",',
++        '    name="' + repo_name + '",',
+     ] + ([
+         # Do NOT use labels / colons in cc_import's hdrs!
+         "    hdrs=dedup([",  # with cc_library, 'includes='.
+-        '        "usr/include/dummy-' + repository_ctx.name + '.h",\n',
+-        '        "dummy-' + repository_ctx.name + '.h",\n',
++        '        "usr/include/dummy-' + repo_name + '.h",\n',
++        '        "dummy-' + repo_name + '.h",\n',
+         "        " + ",\n        ".join(['"' + _removeprefix(str(e), "usr/include/") + '"' for e in hdrs]) + ",\n",
+         "        " + ",\n        ".join(['"' + _removeprefix(str(e), "/") + '"' for e in hdrs]) + "\n" +
+         "    ]),",
+@@ -801,14 +805,23 @@ def x11_repository():
      )
  
  
@@ -52,14 +588,16 @@ index 44f9e86..9d9d2a0 100644
  # Dependencies loaded by the built binary:
 diff --git a/MODULE.bazel b/MODULE.bazel
 new file mode 100644
-index 0000000..b5709a6
+index 0000000..6f99db0
 --- /dev/null
 +++ b/MODULE.bazel
-@@ -0,0 +1,64 @@
+@@ -0,0 +1,66 @@
 +module(
 +    name = "rules_libsdl12",
 +    version = "0.0.0",
 +)
++
++bazel_dep(name = "rules_cc", version = "0.2.14")
 +
 +com_google_googletest = use_repo_rule(
 +    "@bazel_tools//tools/build_defs/repo:http.bzl",

@@ -1,13 +1,38 @@
+diff --git a/glict/BUILD b/glict/BUILD
+index fac56eb..ff1db43 100644
+--- a/glict/BUILD
++++ b/glict/BUILD
+@@ -1,4 +1,6 @@
+ # -*-Python-*-
++
++load("@rules_cc//cc:defs.bzl", "cc_binary")
+ config_setting(
+     name = "darwin",
+     values = {"host_cpu": "darwin"}
+diff --git a/glict/GLICT/BUILD b/glict/GLICT/BUILD
+index e6725f5..bd6b58c 100644
+--- a/glict/GLICT/BUILD
++++ b/glict/GLICT/BUILD
+@@ -1,5 +1,7 @@
+ # -*-Python-*-
+ 
++load("@rules_cc//cc:defs.bzl", "cc_library")
++
+ config_setting(
+     name = "windows",
+     values = {"cpu": "x64_windows"},
 diff --git a/MODULE.bazel b/MODULE.bazel
 new file mode 100644
-index 0000000..c80f3ed
+index 0000000..23cce1d
 --- /dev/null
 +++ b/MODULE.bazel
-@@ -0,0 +1,54 @@
+@@ -0,0 +1,56 @@
 +module(
 +    name = "glict",
 +    version = "0.0.0",
 +)
++
++bazel_dep(name = "rules_cc", version = "0.2.14")
 +
 +bazel_dep(name = "rules_libsdl12", version = "0.0.0")
 +

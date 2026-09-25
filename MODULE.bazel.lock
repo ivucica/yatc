@@ -186,6 +186,1352 @@
     "https://github.com/bazelbuild/bazel-central-registry/raw/refs/heads/main/modules/zlib/1.3.1/MODULE.bazel": "751c9940dcfe869f5f7274e1295422a34623555916eb98c174c1e945594bf198"
   },
   "selectedYankedVersions": {},
-  "moduleExtensions": {},
+  "moduleExtensions": {
+    "//:module_extensions.bzl%yatc_local_repositories": {
+      "general": {
+        "bzlTransitiveDigest": "U4jry8Xv3gydNYqxPkso6qr3dNSLKd+kbRJzjSGI48E=",
+        "usagesDigest": "YY8fYR5Ii55YLDwAmE5cbbhzUiRE9cBMrQEvZdN7ECU=",
+        "recordedInputs": [],
+        "generatedRepoSpecs": {
+          "bazelregistry_sdl2": {
+            "repoRuleId": "@@//:module_extensions.bzl%symlink_local_repository",
+            "attributes": {
+              "path": "vendor/github.com/bazelregistry/sdl2"
+            }
+          },
+          "tommath": {
+            "repoRuleId": "@@//:module_extensions.bzl%symlink_local_repository",
+            "attributes": {
+              "path": "vendor/github.com/libtom/libtommath",
+              "module_name": "tommath",
+              "build_file_content": "\nload(\"@rules_cc//cc:defs.bzl\", \"cc_library\")\n\nconfig_setting(\n    name = 'windows',\n    values = {'host_cpu': 'x64_windows'},\n)\nconfig_setting(\n    name = 'windows_msys',\n    values = {'host_cpu': 'x64_windows_msys'},\n)\nconfig_setting(\n    name = 'windows_msvc',\n    values = {'host_cpu': 'x64_windows_msvc'},\n)\ncc_library(\n  name='tommath',\n  srcs=glob(['*.c']),\n  hdrs=glob(['*.h']),\n  includes = ['.'],\n  visibility=['//visibility:public'],\n  defines = select({\n    '//conditions:default': [],\n    # https://github.com/libtom/libtommath/issues/87 -- no __int128 on MSVC, so we need to build with 32bit math.\n    ':windows': ['MP_32BIT'],\n    ':windows_msys': ['MP_32BIT'],\n    ':windows_msvc': ['MP_32BIT'],\n  }),\n)\n"
+            }
+          }
+        }
+      }
+    },
+    "@@rules_kotlin+//src/main/starlark/core/repositories:bzlmod_setup.bzl%rules_kotlin_extensions": {
+      "general": {
+        "bzlTransitiveDigest": "ABI1D/sbS1ovwaW/kHDoj8nnXjQ0oKU9fzmzEG4iT8o=",
+        "usagesDigest": "QI2z8ZUR+mqtbwsf2fLqYdJAkPOHdOV+tF2yVAUgRzw=",
+        "recordedInputs": [
+          "REPO_MAPPING:rules_kotlin+,bazel_tools bazel_tools"
+        ],
+        "generatedRepoSpecs": {
+          "com_github_jetbrains_kotlin_git": {
+            "repoRuleId": "@@rules_kotlin+//src/main/starlark/core/repositories:compiler.bzl%kotlin_compiler_git_repository",
+            "attributes": {
+              "urls": [
+                "https://github.com/JetBrains/kotlin/releases/download/v1.9.23/kotlin-compiler-1.9.23.zip"
+              ],
+              "sha256": "93137d3aab9afa9b27cb06a824c2324195c6b6f6179d8a8653f440f5bd58be88"
+            }
+          },
+          "com_github_jetbrains_kotlin": {
+            "repoRuleId": "@@rules_kotlin+//src/main/starlark/core/repositories:compiler.bzl%kotlin_capabilities_repository",
+            "attributes": {
+              "git_repository_name": "com_github_jetbrains_kotlin_git",
+              "compiler_version": "1.9.23"
+            }
+          },
+          "com_github_google_ksp": {
+            "repoRuleId": "@@rules_kotlin+//src/main/starlark/core/repositories:ksp.bzl%ksp_compiler_plugin_repository",
+            "attributes": {
+              "urls": [
+                "https://github.com/google/ksp/releases/download/1.9.23-1.0.20/artifacts.zip"
+              ],
+              "sha256": "ee0618755913ef7fd6511288a232e8fad24838b9af6ea73972a76e81053c8c2d",
+              "strip_version": "1.9.23-1.0.20"
+            }
+          },
+          "com_github_pinterest_ktlint": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "sha256": "01b2e0ef893383a50dbeb13970fe7fa3be36ca3e83259e01649945b09d736985",
+              "urls": [
+                "https://github.com/pinterest/ktlint/releases/download/1.3.0/ktlint"
+              ],
+              "executable": true
+            }
+          },
+          "rules_android": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "sha256": "cd06d15dd8bb59926e4d65f9003bfc20f9da4b2519985c27e190cddc8b7a7806",
+              "strip_prefix": "rules_android-0.1.1",
+              "urls": [
+                "https://github.com/bazelbuild/rules_android/archive/v0.1.1.zip"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "@@rules_libsdl12+//:libsdl12.bzl%libsdl12_extension": {
+      "general": {
+        "bzlTransitiveDigest": "oSXQqO42DwXAJlPKj3fDH3zu+Xlj2mTU/fJFQmOuqHw=",
+        "usagesDigest": "yMisBzly9nuUESWBrzl1jCNzgulSwEYiWLMYEQCsV0g=",
+        "recordedInputs": [
+          "REPO_MAPPING:rules_libsdl12+,bazel_tools bazel_tools"
+        ],
+        "generatedRepoSpecs": {
+          "libsdl12": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "url": "http://www.libsdl.org/release/SDL-1.2.15.tar.gz",
+              "sha256": "d6d316a793e5e348155f0dd93b979798933fb98aa1edebcc108829d6474aad00",
+              "strip_prefix": "SDL-1.2.15/",
+              "type": "tar.gz",
+              "build_file": "@@rules_libsdl12+//:BUILD.libsdl12",
+              "patches": [
+                "@@rules_libsdl12+//:patch3.patch"
+              ],
+              "patch_args": [
+                "-p1"
+              ]
+            }
+          },
+          "x11repository": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%x11_repository_rule",
+            "attributes": {
+              "build_file": "@@rules_libsdl12+//:BUILD.x11helper",
+              "dummy_path": "x11_dummy"
+            }
+          },
+          "xcbrepository": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%xcb_repository_rule",
+            "attributes": {}
+          },
+          "libx11-dev_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libx11-dev/libx11-dev_2%253a1.6.9-2ubuntu1.6_amd64.deb"
+              ],
+              "sha256": "dfdc060c5550fbffefbead0976a8bb89ac3bbb80b80878fdfc06df26860fbc23",
+              "downloaded_file_path": "libx11-dev.deb"
+            }
+          },
+          "libx11-dev": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libx11-dev_deb//file:libx11-dev.deb"
+            }
+          },
+          "libxext-dev_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libxext-dev/libxext-dev_2%253a1.3.4-0ubuntu1_amd64.deb"
+              ],
+              "sha256": "b39e2d033916a4e2c1e970465517e285c3e532d3e2f451b720e67ba09cbb2733",
+              "downloaded_file_path": "libxext-dev.deb"
+            }
+          },
+          "libxext-dev": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libxext-dev_deb//file:libxext-dev.deb"
+            }
+          },
+          "libx11-6_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libx11-6/libx11-6_2%253a1.6.9-2ubuntu1.6_amd64.deb"
+              ],
+              "sha256": "20d7c0a8ea7a138d49d777a5db8e652071a3c47c78136450ec7417b5232b84ac",
+              "downloaded_file_path": "libx11-6.deb"
+            }
+          },
+          "libx11-6": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libx11-6_deb//file:libx11-6.deb"
+            }
+          },
+          "x11proto-dev_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/x11proto-dev/x11proto-dev_2019.2-1ubuntu1_all.deb"
+              ],
+              "sha256": "4144072931cbfbb422b465ae4775ce906d01ea816d432ed820b301e08cfef975",
+              "downloaded_file_path": "x11proto-dev.deb"
+            }
+          },
+          "x11proto-dev": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+x11proto-dev_deb//file:x11proto-dev.deb"
+            }
+          },
+          "libxrender-dev_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libxrender-dev/libxrender-dev_1%253a0.9.10-1_amd64.deb"
+              ],
+              "sha256": "aeb7abe8409afbb484c06882c158e7e695743d678387064ef95bdb3d6edbce15",
+              "downloaded_file_path": "libxrender-dev.deb"
+            }
+          },
+          "libxrender-dev": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libxrender-dev_deb//file:libxrender-dev.deb"
+            }
+          },
+          "libxcb1-dev_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libxcb1-dev/libxcb1-dev_1.14-2_amd64.deb"
+              ],
+              "sha256": "824b00562519ccfdd9dd5faa58bbc5cb60b7a6b4eea09eca58c989bd921f88d5",
+              "downloaded_file_path": "libxcb1-dev.deb"
+            }
+          },
+          "libxcb1-dev": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libxcb1-dev_deb//file:libxcb1-dev.deb"
+            }
+          },
+          "libxrandr-dev_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libxrandr-dev/libxrandr-dev_2%253a1.5.2-0ubuntu1_amd64.deb"
+              ],
+              "sha256": "8e3d54f0605a4aa192d8413ed0f3e2c82dff606b81499710208190cd965a31f2",
+              "downloaded_file_path": "libxrandr-dev.deb"
+            }
+          },
+          "libxrandr-dev": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libxrandr-dev_deb//file:libxrandr-dev.deb"
+            }
+          },
+          "libxau-dev_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libxau-dev/libxau-dev_1%253a1.0.9-0ubuntu1_amd64.deb"
+              ],
+              "sha256": "61d3505d0db08c398e91ca5b51f928aa5dbb4d384ccfa2e5c6f0419a57ecf524",
+              "downloaded_file_path": "libxau-dev.deb"
+            }
+          },
+          "libxau-dev": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libxau-dev_deb//file:libxau-dev.deb"
+            }
+          },
+          "libx11-xcb-dev_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libx11-xcb-dev/libx11-xcb-dev_2%253a1.6.9-2ubuntu1.6_amd64.deb"
+              ],
+              "sha256": "93fdbd64619ace78387946ccdec07c88294015aa8b3052cd2c3a6b28ce21e239",
+              "downloaded_file_path": "libx11-xcb-dev.deb"
+            }
+          },
+          "libx11-xcb-dev": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libx11-xcb-dev_deb//file:libx11-xcb-dev.deb"
+            }
+          },
+          "libxdmcp-dev_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libxdmcp-dev/libxdmcp-dev_1%253a1.1.3-0ubuntu1_amd64.deb"
+              ],
+              "sha256": "977cb912f49638434a2bdb8947ac44897f25e5552448576c7d7a5f9a0d9bf1a3",
+              "downloaded_file_path": "libxdmcp-dev.deb"
+            }
+          },
+          "libxdmcp-dev": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libxdmcp-dev_deb//file:libxdmcp-dev.deb"
+            }
+          },
+          "xorg-sgml-doctools_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/xorg-sgml-doctools/xorg-sgml-doctools_1%253a1.11-1_all.deb"
+              ],
+              "sha256": "2f6463489813c2a08e077a6502453c3252453f7cbdab9f323006e081b33e7ad3",
+              "downloaded_file_path": "xorg-sgml-doctools.deb"
+            }
+          },
+          "xorg-sgml-doctools": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+xorg-sgml-doctools_deb//file:xorg-sgml-doctools.deb"
+            }
+          },
+          "libxcb1_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libxcb1/libxcb1_1.14-2_amd64.deb"
+              ],
+              "sha256": "3fcab5cc6a70bcb1e4157748f9c626be21bc18b4c8459447e4c213cba98b9831",
+              "downloaded_file_path": "libxcb1.deb"
+            }
+          },
+          "libxcb1": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libxcb1_deb//file:libxcb1.deb"
+            }
+          },
+          "libxau6_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libxau6/libxau6_1%253a1.0.9-0ubuntu1_amd64.deb"
+              ],
+              "sha256": "58a0d78302a35e4584f96cd598af16b563ae7aae4af589e2a7cee6dc6666d979",
+              "downloaded_file_path": "libxau6.deb"
+            }
+          },
+          "libxau6": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libxau6_deb//file:libxau6.deb"
+            }
+          },
+          "libxdmcp6_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libxdmcp6/libxdmcp6_1%253a1.1.3-0ubuntu1_amd64.deb"
+              ],
+              "sha256": "8a612b0fb60a41b92698f87258bc5ec6467da88e38d3de79411e02921c42af87",
+              "downloaded_file_path": "libxdmcp6.deb"
+            }
+          },
+          "libxdmcp6": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libxdmcp6_deb//file:libxdmcp6.deb"
+            }
+          },
+          "libalsaplayer-dev_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libalsaplayer-dev/libalsaplayer-dev_0.99.81-2build2_amd64.deb"
+              ],
+              "sha256": "ffb8cf7209bf7c111e4d28c5704df8c58223a69c12799a603d39727ce67b0763",
+              "downloaded_file_path": "libalsaplayer-dev.deb"
+            }
+          },
+          "libalsaplayer-dev": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libalsaplayer-dev_deb//file:libalsaplayer-dev.deb"
+            }
+          },
+          "libasound2-dev_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libasound2-dev/libasound2-dev_1.2.2-2.1ubuntu2.5_amd64.deb"
+              ],
+              "sha256": "f10cbb3ccdab80e162e64255e3dfe1e04b02fe1d59d082a7a3d760f0623da9dc",
+              "downloaded_file_path": "libasound2-dev.deb"
+            }
+          },
+          "libasound2-dev": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libasound2-dev_deb//file:libasound2-dev.deb"
+            }
+          },
+          "libgl-dev_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libgl-dev/libgl-dev_1.3.2-1~ubuntu0.20.04.2_amd64.deb"
+              ],
+              "sha256": "435e6e224ac2c4a15f4f5409bd35f776d195ab08a86475ae7933af005e392c71",
+              "downloaded_file_path": "libgl-dev.deb"
+            }
+          },
+          "libgl-dev": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libgl-dev_deb//file:libgl-dev.deb"
+            }
+          },
+          "libglu1-mesa-dev_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libglu1-mesa-dev/libglu1-mesa-dev_9.0.1-1build1_amd64.deb"
+              ],
+              "sha256": "abeb351931541392d0dee175d5effb0f35bc2728ec037360c2392555c4c60ac6",
+              "downloaded_file_path": "libglu1-mesa-dev.deb"
+            }
+          },
+          "libglu1-mesa-dev": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libglu1-mesa-dev_deb//file:libglu1-mesa-dev.deb"
+            }
+          },
+          "libgl1_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libgl1/libgl1_1.3.2-1~ubuntu0.20.04.2_amd64.deb"
+              ],
+              "sha256": "bf37a7087ce67518b0d1e377c9058ef19db431599cec653a743e8379fa1a4a37",
+              "downloaded_file_path": "libgl1.deb"
+            }
+          },
+          "libgl1": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libgl1_deb//file:libgl1.deb"
+            }
+          },
+          "libglu1-mesa_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libglu1-mesa/libglu1-mesa_9.0.1-1build1_amd64.deb"
+              ],
+              "sha256": "3db22def57927f3d11d676e7160856a723fa8c3553b76971327de5b707c86973",
+              "downloaded_file_path": "libglu1-mesa.deb"
+            }
+          },
+          "libglu1-mesa": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libglu1-mesa_deb//file:libglu1-mesa.deb"
+            }
+          },
+          "libglvnd0_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libglvnd0/libglvnd0_1.3.2-1~ubuntu0.20.04.2_amd64.deb"
+              ],
+              "sha256": "df7ebdaef90e7e912147f5dd2f6568759b9111890b61936443a8b1fde1982655",
+              "downloaded_file_path": "libglvnd0.deb"
+            }
+          },
+          "libglvnd0": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libglvnd0_deb//file:libglvnd0.deb"
+            }
+          },
+          "libglx-mesa0_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libglx-mesa0/libglx-mesa0_21.2.6-0ubuntu0.1~20.04.2_amd64.deb"
+              ],
+              "sha256": "b8f2bef5e58bf22b1a1b1b12618d717f71681c91f53525e872d7cf578d079b61",
+              "downloaded_file_path": "libglx-mesa0.deb"
+            }
+          },
+          "libglx-mesa0": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libglx-mesa0_deb//file:libglx-mesa0.deb"
+            }
+          },
+          "libglx0_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libglx0/libglx0_1.3.2-1~ubuntu0.20.04.2_amd64.deb"
+              ],
+              "sha256": "2620a3da6755af5df028a6f48c56e754ce90eef58c201dc9a289d5736eaad0c4",
+              "downloaded_file_path": "libglx0.deb"
+            }
+          },
+          "libglx0": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libglx0_deb//file:libglx0.deb"
+            }
+          },
+          "libglapi-mesa_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libglapi-mesa/libglapi-mesa_21.2.6-0ubuntu0.1~20.04.2_amd64.deb"
+              ],
+              "sha256": "30d27c6b71753bea3f144d91756ca440a9f7cf3842497a3af4cf228e615c15b2",
+              "downloaded_file_path": "libglapi-mesa.deb"
+            }
+          },
+          "libglapi-mesa": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libglapi-mesa_deb//file:libglapi-mesa.deb"
+            }
+          },
+          "libx11-xcb1_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libx11-xcb1/libx11-xcb1_2%253a1.6.9-2ubuntu1.6_amd64.deb"
+              ],
+              "sha256": "da988703b47d7923d4bee2be97dd91b8225efaa70ea284e1bc84e025992c449f",
+              "downloaded_file_path": "libx11-xcb1.deb"
+            }
+          },
+          "libx11-xcb1": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libx11-xcb1_deb//file:libx11-xcb1.deb"
+            }
+          },
+          "libxext6_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libxext6/libxext6_2%253a1.3.4-0ubuntu1_amd64.deb"
+              ],
+              "sha256": "a3c546490c0ae0f9247cf8f2919fc7b99b386a538ac91ae48a4ebb96a2a69834",
+              "downloaded_file_path": "libxext6.deb"
+            }
+          },
+          "libxext6": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libxext6_deb//file:libxext6.deb"
+            }
+          },
+          "libxfixes3_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libxfixes3/libxfixes3_1%253a5.0.3-2_amd64.deb"
+              ],
+              "sha256": "ee3d380e5f825048a381fea92e8215bc65662fa4ce06346579fbaada2b1f7acc",
+              "downloaded_file_path": "libxfixes3.deb"
+            }
+          },
+          "libxfixes3": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libxfixes3_deb//file:libxfixes3.deb"
+            }
+          },
+          "libxxf86vm1_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libxxf86vm1/libxxf86vm1_1%253a1.1.4-1build1_amd64.deb"
+              ],
+              "sha256": "45f668e2bb605559261db4651348d4c248ee871610b541a076e4fc2f05807cc0",
+              "downloaded_file_path": "libxxf86vm1.deb"
+            }
+          },
+          "libxxf86vm1": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libxxf86vm1_deb//file:libxxf86vm1.deb"
+            }
+          },
+          "libxcb-glx0_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libxcb-glx0/libxcb-glx0_1.14-2_amd64.deb"
+              ],
+              "sha256": "7c4b5d4a025a1ba37439a89dcf9f51ed031e038555759ce745072976b4f7b743",
+              "downloaded_file_path": "libxcb-glx0.deb"
+            }
+          },
+          "libxcb-glx0": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libxcb-glx0_deb//file:libxcb-glx0.deb"
+            }
+          },
+          "libxcb-dri2-0_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libxcb-dri2-0/libxcb-dri2-0_1.14-2_amd64.deb"
+              ],
+              "sha256": "36fb1a063de7d5337887f0ca8e7a0f43ec0c82b3c022af439a6f896fa5a80535",
+              "downloaded_file_path": "libxcb-dri2-0.deb"
+            }
+          },
+          "libxcb-dri2-0": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libxcb-dri2-0_deb//file:libxcb-dri2-0.deb"
+            }
+          },
+          "libxcb-dri3-0_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libxcb-dri3-0/libxcb-dri3-0_1.14-2_amd64.deb"
+              ],
+              "sha256": "d6df34fbf1b2cd584ad51839037e3da2b4131f239c6d1ef2cb41e6757fc5d48e",
+              "downloaded_file_path": "libxcb-dri3-0.deb"
+            }
+          },
+          "libxcb-dri3-0": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libxcb-dri3-0_deb//file:libxcb-dri3-0.deb"
+            }
+          },
+          "libxcb-present0_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libxcb-present0/libxcb-present0_1.14-2_amd64.deb"
+              ],
+              "sha256": "fb608f5fbdd36ca851118754a990e55309f4cf538db17b7dd91eb117bc06ff5e",
+              "downloaded_file_path": "libxcb-present0.deb"
+            }
+          },
+          "libxcb-present0": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libxcb-present0_deb//file:libxcb-present0.deb"
+            }
+          },
+          "libxcb-sync1_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libxcb-sync1/libxcb-sync1_1.14-2_amd64.deb"
+              ],
+              "sha256": "d79b16f888b16031cfc25bbf6f92b404f421d7965e625cede4825b15aa795e6e",
+              "downloaded_file_path": "libxcb-sync1.deb"
+            }
+          },
+          "libxcb-sync1": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libxcb-sync1_deb//file:libxcb-sync1.deb"
+            }
+          },
+          "libxcb-xfixes0_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libxcb-xfixes0/libxcb-xfixes0_1.14-2_amd64.deb"
+              ],
+              "sha256": "9fbb1bbb105749359d99580bd388bcfec472cf3c6ff7f3b353ee78e61ec1bb81",
+              "downloaded_file_path": "libxcb-xfixes0.deb"
+            }
+          },
+          "libxcb-xfixes0": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libxcb-xfixes0_deb//file:libxcb-xfixes0.deb"
+            }
+          },
+          "libxshmfence1_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libxshmfence1/libxshmfence1_1.3-1_amd64.deb"
+              ],
+              "sha256": "f5fa812a85d8f4aa6b2760ba838ce9608297a2336b53e555efd3837b80d5dc10",
+              "downloaded_file_path": "libxshmfence1.deb"
+            }
+          },
+          "libxshmfence1": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libxshmfence1_deb//file:libxshmfence1.deb"
+            }
+          },
+          "libdrm2_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libdrm2/libdrm2_2.4.107-8ubuntu1~20.04.2_amd64.deb"
+              ],
+              "sha256": "9b01d73313841abe8e3f24c2715edced675fbe329bbd10be912a5b135cd51fb6",
+              "downloaded_file_path": "libdrm2.deb"
+            }
+          },
+          "libdrm2": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libdrm2_deb//file:libdrm2.deb"
+            }
+          },
+          "libexpat1_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libexpat1/libexpat1_2.2.9-1ubuntu0.7_amd64.deb"
+              ],
+              "sha256": "42dd972877a1212686846db5a9a78c3cecfc3da56249d3beecd53c4ff9d51453",
+              "downloaded_file_path": "libexpat1.deb"
+            }
+          },
+          "libexpat1": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libexpat1_deb//file:libexpat1.deb"
+            }
+          },
+          "libbsd0_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libbsd0/libbsd0_0.10.0-1_amd64.deb"
+              ],
+              "sha256": "4f668025fe923a372eb7fc368d6769fcfff6809233d48fd20fc072917cd82e60",
+              "downloaded_file_path": "libbsd0.deb"
+            }
+          },
+          "libbsd0": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libbsd0_deb//file:libbsd0.deb"
+            }
+          },
+          "libmd0_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libmd0/libmd0_1.0.1-3_amd64.deb"
+              ],
+              "sha256": "fe904769ee32a2250a40fce092a92c9ad0baaf34e1ae4a2c90f8c2a3d536a98d",
+              "downloaded_file_path": "libmd0.deb"
+            }
+          },
+          "libmd0": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libmd0_deb//file:libmd0.deb"
+            }
+          },
+          "libxcb-shm0_deb": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
+            "attributes": {
+              "urls": [
+                "https://github.com/ivucica/rules_libsdl12/raw/2aa9c52b29ce3afc08b95c43c8853f4a1dcfe6fc/libxcb-shm0/libxcb-shm0_1.14-2_amd64.deb"
+              ],
+              "sha256": "776c691acd4fcdad314f0f09c98927a608cbc422007ce0f0c88e9d6711773217",
+              "downloaded_file_path": "libxcb-shm0.deb"
+            }
+          },
+          "libxcb-shm0": {
+            "repoRuleId": "@@rules_libsdl12+//:x11-helper.bzl%_x11_deb_repository_rule",
+            "attributes": {
+              "deb": "@@rules_libsdl12++libsdl12_extension+libxcb-shm0_deb//file:libxcb-shm0.deb"
+            }
+          }
+        }
+      }
+    },
+    "@@rules_python+//python/extensions:config.bzl%config": {
+      "general": {
+        "bzlTransitiveDigest": "2hLgIvNVTLgxus0ZuXtleBe70intCfo0cHs8qvt6cdM=",
+        "usagesDigest": "ZVSXMAGpD+xzVNPuvF1IoLBkty7TROO0+akMapt1pAg=",
+        "recordedInputs": [
+          "REPO_MAPPING:rules_python+,bazel_tools bazel_tools",
+          "REPO_MAPPING:rules_python+,pypi__build rules_python++config+pypi__build",
+          "REPO_MAPPING:rules_python+,pypi__click rules_python++config+pypi__click",
+          "REPO_MAPPING:rules_python+,pypi__colorama rules_python++config+pypi__colorama",
+          "REPO_MAPPING:rules_python+,pypi__importlib_metadata rules_python++config+pypi__importlib_metadata",
+          "REPO_MAPPING:rules_python+,pypi__installer rules_python++config+pypi__installer",
+          "REPO_MAPPING:rules_python+,pypi__more_itertools rules_python++config+pypi__more_itertools",
+          "REPO_MAPPING:rules_python+,pypi__packaging rules_python++config+pypi__packaging",
+          "REPO_MAPPING:rules_python+,pypi__pep517 rules_python++config+pypi__pep517",
+          "REPO_MAPPING:rules_python+,pypi__pip rules_python++config+pypi__pip",
+          "REPO_MAPPING:rules_python+,pypi__pip_tools rules_python++config+pypi__pip_tools",
+          "REPO_MAPPING:rules_python+,pypi__pyproject_hooks rules_python++config+pypi__pyproject_hooks",
+          "REPO_MAPPING:rules_python+,pypi__setuptools rules_python++config+pypi__setuptools",
+          "REPO_MAPPING:rules_python+,pypi__tomli rules_python++config+pypi__tomli",
+          "REPO_MAPPING:rules_python+,pypi__wheel rules_python++config+pypi__wheel",
+          "REPO_MAPPING:rules_python+,pypi__zipp rules_python++config+pypi__zipp"
+        ],
+        "generatedRepoSpecs": {
+          "rules_python_internal": {
+            "repoRuleId": "@@rules_python+//python/private:internal_config_repo.bzl%internal_config_repo",
+            "attributes": {
+              "transition_setting_generators": {},
+              "transition_settings": []
+            }
+          },
+          "pypi__build": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "url": "https://files.pythonhosted.org/packages/e2/03/f3c8ba0a6b6e30d7d18c40faab90807c9bb5e9a1e3b2fe2008af624a9c97/build-1.2.1-py3-none-any.whl",
+              "sha256": "75e10f767a433d9a86e50d83f418e83efc18ede923ee5ff7df93b6cb0306c5d4",
+              "type": "zip",
+              "build_file_content": "package(default_visibility = [\"//visibility:public\"])\n\nload(\"@rules_python//python:py_library.bzl\", \"py_library\")\n\npy_library(\n    name = \"lib\",\n    srcs = glob([\"**/*.py\"]),\n    data = glob([\"**/*\"], exclude=[\n        # These entries include those put into user-installed dependencies by\n        # data_exclude to avoid non-determinism.\n        \"**/*.py\",\n        \"**/*.pyc\",\n        \"**/*.pyc.*\",  # During pyc creation, temp files named *.pyc.NNN are created\n        \"**/*.dist-info/RECORD\",\n        \"BUILD\",\n        \"WORKSPACE\",\n    ]),\n    # This makes this directory a top-level in the python import\n    # search path for anything that depends on this.\n    imports = [\".\"],\n)\n"
+            }
+          },
+          "pypi__click": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "url": "https://files.pythonhosted.org/packages/00/2e/d53fa4befbf2cfa713304affc7ca780ce4fc1fd8710527771b58311a3229/click-8.1.7-py3-none-any.whl",
+              "sha256": "ae74fb96c20a0277a1d615f1e4d73c8414f5a98db8b799a7931d1582f3390c28",
+              "type": "zip",
+              "build_file_content": "package(default_visibility = [\"//visibility:public\"])\n\nload(\"@rules_python//python:py_library.bzl\", \"py_library\")\n\npy_library(\n    name = \"lib\",\n    srcs = glob([\"**/*.py\"]),\n    data = glob([\"**/*\"], exclude=[\n        # These entries include those put into user-installed dependencies by\n        # data_exclude to avoid non-determinism.\n        \"**/*.py\",\n        \"**/*.pyc\",\n        \"**/*.pyc.*\",  # During pyc creation, temp files named *.pyc.NNN are created\n        \"**/*.dist-info/RECORD\",\n        \"BUILD\",\n        \"WORKSPACE\",\n    ]),\n    # This makes this directory a top-level in the python import\n    # search path for anything that depends on this.\n    imports = [\".\"],\n)\n"
+            }
+          },
+          "pypi__colorama": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "url": "https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.6-py2.py3-none-any.whl",
+              "sha256": "4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6",
+              "type": "zip",
+              "build_file_content": "package(default_visibility = [\"//visibility:public\"])\n\nload(\"@rules_python//python:py_library.bzl\", \"py_library\")\n\npy_library(\n    name = \"lib\",\n    srcs = glob([\"**/*.py\"]),\n    data = glob([\"**/*\"], exclude=[\n        # These entries include those put into user-installed dependencies by\n        # data_exclude to avoid non-determinism.\n        \"**/*.py\",\n        \"**/*.pyc\",\n        \"**/*.pyc.*\",  # During pyc creation, temp files named *.pyc.NNN are created\n        \"**/*.dist-info/RECORD\",\n        \"BUILD\",\n        \"WORKSPACE\",\n    ]),\n    # This makes this directory a top-level in the python import\n    # search path for anything that depends on this.\n    imports = [\".\"],\n)\n"
+            }
+          },
+          "pypi__importlib_metadata": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "url": "https://files.pythonhosted.org/packages/2d/0a/679461c511447ffaf176567d5c496d1de27cbe34a87df6677d7171b2fbd4/importlib_metadata-7.1.0-py3-none-any.whl",
+              "sha256": "30962b96c0c223483ed6cc7280e7f0199feb01a0e40cfae4d4450fc6fab1f570",
+              "type": "zip",
+              "build_file_content": "package(default_visibility = [\"//visibility:public\"])\n\nload(\"@rules_python//python:py_library.bzl\", \"py_library\")\n\npy_library(\n    name = \"lib\",\n    srcs = glob([\"**/*.py\"]),\n    data = glob([\"**/*\"], exclude=[\n        # These entries include those put into user-installed dependencies by\n        # data_exclude to avoid non-determinism.\n        \"**/*.py\",\n        \"**/*.pyc\",\n        \"**/*.pyc.*\",  # During pyc creation, temp files named *.pyc.NNN are created\n        \"**/*.dist-info/RECORD\",\n        \"BUILD\",\n        \"WORKSPACE\",\n    ]),\n    # This makes this directory a top-level in the python import\n    # search path for anything that depends on this.\n    imports = [\".\"],\n)\n"
+            }
+          },
+          "pypi__installer": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "url": "https://files.pythonhosted.org/packages/e5/ca/1172b6638d52f2d6caa2dd262ec4c811ba59eee96d54a7701930726bce18/installer-0.7.0-py3-none-any.whl",
+              "sha256": "05d1933f0a5ba7d8d6296bb6d5018e7c94fa473ceb10cf198a92ccea19c27b53",
+              "type": "zip",
+              "build_file_content": "package(default_visibility = [\"//visibility:public\"])\n\nload(\"@rules_python//python:py_library.bzl\", \"py_library\")\n\npy_library(\n    name = \"lib\",\n    srcs = glob([\"**/*.py\"]),\n    data = glob([\"**/*\"], exclude=[\n        # These entries include those put into user-installed dependencies by\n        # data_exclude to avoid non-determinism.\n        \"**/*.py\",\n        \"**/*.pyc\",\n        \"**/*.pyc.*\",  # During pyc creation, temp files named *.pyc.NNN are created\n        \"**/*.dist-info/RECORD\",\n        \"BUILD\",\n        \"WORKSPACE\",\n    ]),\n    # This makes this directory a top-level in the python import\n    # search path for anything that depends on this.\n    imports = [\".\"],\n)\n"
+            }
+          },
+          "pypi__more_itertools": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "url": "https://files.pythonhosted.org/packages/50/e2/8e10e465ee3987bb7c9ab69efb91d867d93959095f4807db102d07995d94/more_itertools-10.2.0-py3-none-any.whl",
+              "sha256": "686b06abe565edfab151cb8fd385a05651e1fdf8f0a14191e4439283421f8684",
+              "type": "zip",
+              "build_file_content": "package(default_visibility = [\"//visibility:public\"])\n\nload(\"@rules_python//python:py_library.bzl\", \"py_library\")\n\npy_library(\n    name = \"lib\",\n    srcs = glob([\"**/*.py\"]),\n    data = glob([\"**/*\"], exclude=[\n        # These entries include those put into user-installed dependencies by\n        # data_exclude to avoid non-determinism.\n        \"**/*.py\",\n        \"**/*.pyc\",\n        \"**/*.pyc.*\",  # During pyc creation, temp files named *.pyc.NNN are created\n        \"**/*.dist-info/RECORD\",\n        \"BUILD\",\n        \"WORKSPACE\",\n    ]),\n    # This makes this directory a top-level in the python import\n    # search path for anything that depends on this.\n    imports = [\".\"],\n)\n"
+            }
+          },
+          "pypi__packaging": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "url": "https://files.pythonhosted.org/packages/49/df/1fceb2f8900f8639e278b056416d49134fb8d84c5942ffaa01ad34782422/packaging-24.0-py3-none-any.whl",
+              "sha256": "2ddfb553fdf02fb784c234c7ba6ccc288296ceabec964ad2eae3777778130bc5",
+              "type": "zip",
+              "build_file_content": "package(default_visibility = [\"//visibility:public\"])\n\nload(\"@rules_python//python:py_library.bzl\", \"py_library\")\n\npy_library(\n    name = \"lib\",\n    srcs = glob([\"**/*.py\"]),\n    data = glob([\"**/*\"], exclude=[\n        # These entries include those put into user-installed dependencies by\n        # data_exclude to avoid non-determinism.\n        \"**/*.py\",\n        \"**/*.pyc\",\n        \"**/*.pyc.*\",  # During pyc creation, temp files named *.pyc.NNN are created\n        \"**/*.dist-info/RECORD\",\n        \"BUILD\",\n        \"WORKSPACE\",\n    ]),\n    # This makes this directory a top-level in the python import\n    # search path for anything that depends on this.\n    imports = [\".\"],\n)\n"
+            }
+          },
+          "pypi__pep517": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "url": "https://files.pythonhosted.org/packages/25/6e/ca4a5434eb0e502210f591b97537d322546e4833dcb4d470a48c375c5540/pep517-0.13.1-py3-none-any.whl",
+              "sha256": "31b206f67165b3536dd577c5c3f1518e8fbaf38cbc57efff8369a392feff1721",
+              "type": "zip",
+              "build_file_content": "package(default_visibility = [\"//visibility:public\"])\n\nload(\"@rules_python//python:py_library.bzl\", \"py_library\")\n\npy_library(\n    name = \"lib\",\n    srcs = glob([\"**/*.py\"]),\n    data = glob([\"**/*\"], exclude=[\n        # These entries include those put into user-installed dependencies by\n        # data_exclude to avoid non-determinism.\n        \"**/*.py\",\n        \"**/*.pyc\",\n        \"**/*.pyc.*\",  # During pyc creation, temp files named *.pyc.NNN are created\n        \"**/*.dist-info/RECORD\",\n        \"BUILD\",\n        \"WORKSPACE\",\n    ]),\n    # This makes this directory a top-level in the python import\n    # search path for anything that depends on this.\n    imports = [\".\"],\n)\n"
+            }
+          },
+          "pypi__pip": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "url": "https://files.pythonhosted.org/packages/8a/6a/19e9fe04fca059ccf770861c7d5721ab4c2aebc539889e97c7977528a53b/pip-24.0-py3-none-any.whl",
+              "sha256": "ba0d021a166865d2265246961bec0152ff124de910c5cc39f1156ce3fa7c69dc",
+              "type": "zip",
+              "build_file_content": "package(default_visibility = [\"//visibility:public\"])\n\nload(\"@rules_python//python:py_library.bzl\", \"py_library\")\n\npy_library(\n    name = \"lib\",\n    srcs = glob([\"**/*.py\"]),\n    data = glob([\"**/*\"], exclude=[\n        # These entries include those put into user-installed dependencies by\n        # data_exclude to avoid non-determinism.\n        \"**/*.py\",\n        \"**/*.pyc\",\n        \"**/*.pyc.*\",  # During pyc creation, temp files named *.pyc.NNN are created\n        \"**/*.dist-info/RECORD\",\n        \"BUILD\",\n        \"WORKSPACE\",\n    ]),\n    # This makes this directory a top-level in the python import\n    # search path for anything that depends on this.\n    imports = [\".\"],\n)\n"
+            }
+          },
+          "pypi__pip_tools": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "url": "https://files.pythonhosted.org/packages/0d/dc/38f4ce065e92c66f058ea7a368a9c5de4e702272b479c0992059f7693941/pip_tools-7.4.1-py3-none-any.whl",
+              "sha256": "4c690e5fbae2f21e87843e89c26191f0d9454f362d8acdbd695716493ec8b3a9",
+              "type": "zip",
+              "build_file_content": "package(default_visibility = [\"//visibility:public\"])\n\nload(\"@rules_python//python:py_library.bzl\", \"py_library\")\n\npy_library(\n    name = \"lib\",\n    srcs = glob([\"**/*.py\"]),\n    data = glob([\"**/*\"], exclude=[\n        # These entries include those put into user-installed dependencies by\n        # data_exclude to avoid non-determinism.\n        \"**/*.py\",\n        \"**/*.pyc\",\n        \"**/*.pyc.*\",  # During pyc creation, temp files named *.pyc.NNN are created\n        \"**/*.dist-info/RECORD\",\n        \"BUILD\",\n        \"WORKSPACE\",\n    ]),\n    # This makes this directory a top-level in the python import\n    # search path for anything that depends on this.\n    imports = [\".\"],\n)\n"
+            }
+          },
+          "pypi__pyproject_hooks": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "url": "https://files.pythonhosted.org/packages/ae/f3/431b9d5fe7d14af7a32340792ef43b8a714e7726f1d7b69cc4e8e7a3f1d7/pyproject_hooks-1.1.0-py3-none-any.whl",
+              "sha256": "7ceeefe9aec63a1064c18d939bdc3adf2d8aa1988a510afec15151578b232aa2",
+              "type": "zip",
+              "build_file_content": "package(default_visibility = [\"//visibility:public\"])\n\nload(\"@rules_python//python:py_library.bzl\", \"py_library\")\n\npy_library(\n    name = \"lib\",\n    srcs = glob([\"**/*.py\"]),\n    data = glob([\"**/*\"], exclude=[\n        # These entries include those put into user-installed dependencies by\n        # data_exclude to avoid non-determinism.\n        \"**/*.py\",\n        \"**/*.pyc\",\n        \"**/*.pyc.*\",  # During pyc creation, temp files named *.pyc.NNN are created\n        \"**/*.dist-info/RECORD\",\n        \"BUILD\",\n        \"WORKSPACE\",\n    ]),\n    # This makes this directory a top-level in the python import\n    # search path for anything that depends on this.\n    imports = [\".\"],\n)\n"
+            }
+          },
+          "pypi__setuptools": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "url": "https://files.pythonhosted.org/packages/90/99/158ad0609729111163fc1f674a5a42f2605371a4cf036d0441070e2f7455/setuptools-78.1.1-py3-none-any.whl",
+              "sha256": "c3a9c4211ff4c309edb8b8c4f1cbfa7ae324c4ba9f91ff254e3d305b9fd54561",
+              "type": "zip",
+              "build_file_content": "package(default_visibility = [\"//visibility:public\"])\n\nload(\"@rules_python//python:py_library.bzl\", \"py_library\")\n\npy_library(\n    name = \"lib\",\n    srcs = glob([\"**/*.py\"]),\n    data = glob([\"**/*\"], exclude=[\n        # These entries include those put into user-installed dependencies by\n        # data_exclude to avoid non-determinism.\n        \"**/*.py\",\n        \"**/*.pyc\",\n        \"**/*.pyc.*\",  # During pyc creation, temp files named *.pyc.NNN are created\n        \"**/*.dist-info/RECORD\",\n        \"BUILD\",\n        \"WORKSPACE\",\n    ]),\n    # This makes this directory a top-level in the python import\n    # search path for anything that depends on this.\n    imports = [\".\"],\n)\n"
+            }
+          },
+          "pypi__tomli": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "url": "https://files.pythonhosted.org/packages/97/75/10a9ebee3fd790d20926a90a2547f0bf78f371b2f13aa822c759680ca7b9/tomli-2.0.1-py3-none-any.whl",
+              "sha256": "939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc",
+              "type": "zip",
+              "build_file_content": "package(default_visibility = [\"//visibility:public\"])\n\nload(\"@rules_python//python:py_library.bzl\", \"py_library\")\n\npy_library(\n    name = \"lib\",\n    srcs = glob([\"**/*.py\"]),\n    data = glob([\"**/*\"], exclude=[\n        # These entries include those put into user-installed dependencies by\n        # data_exclude to avoid non-determinism.\n        \"**/*.py\",\n        \"**/*.pyc\",\n        \"**/*.pyc.*\",  # During pyc creation, temp files named *.pyc.NNN are created\n        \"**/*.dist-info/RECORD\",\n        \"BUILD\",\n        \"WORKSPACE\",\n    ]),\n    # This makes this directory a top-level in the python import\n    # search path for anything that depends on this.\n    imports = [\".\"],\n)\n"
+            }
+          },
+          "pypi__wheel": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "url": "https://files.pythonhosted.org/packages/7d/cd/d7460c9a869b16c3dd4e1e403cce337df165368c71d6af229a74699622ce/wheel-0.43.0-py3-none-any.whl",
+              "sha256": "55c570405f142630c6b9f72fe09d9b67cf1477fcf543ae5b8dcb1f5b7377da81",
+              "type": "zip",
+              "build_file_content": "package(default_visibility = [\"//visibility:public\"])\n\nload(\"@rules_python//python:py_library.bzl\", \"py_library\")\n\npy_library(\n    name = \"lib\",\n    srcs = glob([\"**/*.py\"]),\n    data = glob([\"**/*\"], exclude=[\n        # These entries include those put into user-installed dependencies by\n        # data_exclude to avoid non-determinism.\n        \"**/*.py\",\n        \"**/*.pyc\",\n        \"**/*.pyc.*\",  # During pyc creation, temp files named *.pyc.NNN are created\n        \"**/*.dist-info/RECORD\",\n        \"BUILD\",\n        \"WORKSPACE\",\n    ]),\n    # This makes this directory a top-level in the python import\n    # search path for anything that depends on this.\n    imports = [\".\"],\n)\n"
+            }
+          },
+          "pypi__zipp": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "url": "https://files.pythonhosted.org/packages/da/55/a03fd7240714916507e1fcf7ae355bd9d9ed2e6db492595f1a67f61681be/zipp-3.18.2-py3-none-any.whl",
+              "sha256": "dce197b859eb796242b0622af1b8beb0a722d52aa2f57133ead08edd5bf5374e",
+              "type": "zip",
+              "build_file_content": "package(default_visibility = [\"//visibility:public\"])\n\nload(\"@rules_python//python:py_library.bzl\", \"py_library\")\n\npy_library(\n    name = \"lib\",\n    srcs = glob([\"**/*.py\"]),\n    data = glob([\"**/*\"], exclude=[\n        # These entries include those put into user-installed dependencies by\n        # data_exclude to avoid non-determinism.\n        \"**/*.py\",\n        \"**/*.pyc\",\n        \"**/*.pyc.*\",  # During pyc creation, temp files named *.pyc.NNN are created\n        \"**/*.dist-info/RECORD\",\n        \"BUILD\",\n        \"WORKSPACE\",\n    ]),\n    # This makes this directory a top-level in the python import\n    # search path for anything that depends on this.\n    imports = [\".\"],\n)\n"
+            }
+          }
+        }
+      }
+    },
+    "@@rules_python+//python/uv:uv.bzl%uv": {
+      "general": {
+        "bzlTransitiveDigest": "ijW9KS7qsIY+yBVvJ+Nr1mzwQox09j13DnE3iIwaeTM=",
+        "usagesDigest": "H8dQoNZcoqP+Mu0tHZTi4KHATzvNkM5ePuEqoQdklIU=",
+        "recordedInputs": [
+          "REPO_MAPPING:rules_python+,bazel_tools bazel_tools",
+          "REPO_MAPPING:rules_python+,platforms platforms"
+        ],
+        "generatedRepoSpecs": {
+          "uv": {
+            "repoRuleId": "@@rules_python+//python/uv/private:uv_toolchains_repo.bzl%uv_toolchains_repo",
+            "attributes": {
+              "toolchain_type": "'@@rules_python+//python/uv:uv_toolchain_type'",
+              "toolchain_names": [
+                "none"
+              ],
+              "toolchain_implementations": {
+                "none": "'@@rules_python+//python:none'"
+              },
+              "toolchain_compatible_with": {
+                "none": [
+                  "@platforms//:incompatible"
+                ]
+              },
+              "toolchain_target_settings": {}
+            }
+          }
+        }
+      }
+    },
+    "@@rules_tibia+//:tibia_data.bzl%tibia_data_extension": {
+      "general": {
+        "bzlTransitiveDigest": "e10yfGch/zAuM0a0LMTiOgi0lHPFJlTdKhagW7qkLaI=",
+        "usagesDigest": "AHoPIDFiBimReir9XwVtAFiVAqx1K3LEmmBLVy9OydQ=",
+        "recordedInputs": [
+          "REPO_MAPPING:rules_tibia+,bazel_tools bazel_tools"
+        ],
+        "generatedRepoSpecs": {
+          "tibia790": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia790.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia790.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia790.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia790.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "f78855ec906f163b4e6e3a12d463e781f010b2d6df0ee58dde9926b2a1e8274c",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia791": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia791.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia791.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia791.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia791.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "c80674b773cbb4bcf0410f1876ca4ebe0f56724fc08cde0da8b935222d77d63f",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia792": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia792.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia792.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia792.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia792.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "088f5e9926025ee84180f5e837c9cdf9563cb262e0c10650dd248d64d0e431ab",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia800": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia800.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia800.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia800.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia800.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "c0899cf138b07063c49db75c5df63d262b1686f4f6665b04a7fc725be5c760cb",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia810": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia810.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia810.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia810.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia810.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "5d09e9985e44faa4fa60b138b12d5e503f4db6e3ab6ea26c7331b043eb952923",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia811": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia811.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia811.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia811.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia811.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "5147ae8732f795747789d1ca84333b73f37afea59e1d1388db95db15cbffa0c2",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia822": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia822.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia822.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia822.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia822.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "a16258fa7d57695c2abc9f0991e9d81b50d05595669cf349b110eb23a812bb3b",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia830": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia830.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia830.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia830.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia830.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "1bd05aef9e4800d5680bd9142e3137ec0d1a9947879865a67585b8507a986942",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia831": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia831.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia831.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia831.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia831.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "68c438fa4b06f1a32f8b3084e03f3e452695662dd78567e02bd944a9fe54cc98",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia840": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia840.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia840.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia840.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia840.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "4cbe83f45052490bed54f22deccead334741c22a7676847183639fe75a29d637",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia841": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia841.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia841.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia841.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia841.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "63b5f6e369654c82c478cb9ad44d6109d5e73fb071e27003fd8b1980420a022c",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia842": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia842.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia842.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia842.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia842.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "a4345aab7c0d94602de8ee229148634f7d68383dc7ccbe163d1f7d2df19b182a",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia850": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia850.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia850.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia850.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia850.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "976921dec520d027da09d1045ce19cfce8d9c10366c1f3bd0e02c6f79fb9c077",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia852": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia852.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia852.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia852.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia852.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "9f31b5a07e3895ac53a105785d173e231cb3acdd7cc2a710bd132bf9f0de9a1e",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia853": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia853.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia853.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia853.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia853.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "081ed5cdb0eea477ba91350178a892f72b959b63ac6fcef8e399cb7d4318662e",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia854": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia854.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia854.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia854.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia854.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipfs/QmQuHvyHCetUsZYT7ZDmPdCHHWgFgHNzNTW7jxQ96azrvV?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "https://cloudflare-ipfs.com/ipfs/QmQuHvyHCetUsZYT7ZDmPdCHHWgFgHNzNTW7jxQ96azrvV?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "https://badc0de.net/UNSTABLE_TEMPORARY_URL/tibia854.tgz?agent=bazel+rule,see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "3d897c233226586d86f5a33941ac3b62b3aa001b8e563c574a4a860320d7a865",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia860": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia860.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia860.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia860.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia860.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "68b787c1a1cca1c6f95b16de81b1433bc908bbd8cb84aa357a34845bb35acdf7",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia861": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia861.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia861.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia861.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia861.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "3baf990be00c98e31897ac81adee3cb1b9ff29817422300339cb6dc8d8f3734b",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia900": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia900.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia900.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia900.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia900.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "9f0207e3b66c4f5a6363982a66ac4581ffcf4a02ca8eed3224f26dc3690ccf52",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia910": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia910.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia910.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia910.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia910.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "97f6746b6eb6cadad9b7dcd52a38e0f3f1f547a4913145e16174acbeff2445a0",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia920": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia920.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia920.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia920.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia920.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "c68e9f6e03bc4069a5a640ffb3a7b0671e957e4375fe4de53fe61d4c4f12c76b",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia931": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia931.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia931.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia931.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia931.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "ac2df36ca265691dcb3aa9914681c6fd204740ea1fb05bc4650d837cf2388bed",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia946": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia946.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia946.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia946.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia946.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "5e60c0f24e1bddf72595a6a7e6f8343fc1586f05761d3fd387aa74df8d52cc05",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia954": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia954.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia954.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia954.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia954.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "872a73910da143930039c5a08563b12ddfe6df1226ff9b4b220223e89d8335bf",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          },
+          "tibia960": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "urls": [
+                "http://remere.clients.archive.tibia.badc0de.net/tibia960.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://archive.tibia.badc0de.net/tibia/clients/tibia-clients-remere/tibia960.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://proxy.ipfs.badc0de.net/ipns/remere.clients.archive.tibia.badc0de.net/tibia960.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia",
+                "http://cloudflare-ipfs.com/ipns/remere.clients.archive.tibia.badc0de.net/tibia960.tgz?agent=bazel+rule,+see+github.com/ivucica/rules_tibia"
+              ],
+              "sha256": "c9412aaff24fa15264f0846f6dea602bdfce93d4a64fb5ee2f4675e6363f7e6d",
+              "type": "tar.gz",
+              "strip_prefix": "Tibia/",
+              "build_file_content": "exports_files(['Tibia.pic', 'Tibia.spr', 'Tibia.dat'])"
+            }
+          }
+        }
+      }
+    }
+  },
   "facts": {}
 }
