@@ -1,7 +1,3 @@
-def _module_name_for_repo(repo_name):
-    return repo_name.lower().replace("_", "-")
-
-
 def _symlink_local_repository_impl(ctx):
     source = ctx.path(ctx.attr.path)
 
@@ -11,7 +7,7 @@ def _symlink_local_repository_impl(ctx):
         ctx.symlink(entry, entry.basename)
 
     if not ctx.path("MODULE.bazel").exists() and not ctx.path("WORKSPACE").exists() and not ctx.path("WORKSPACE.bazel").exists():
-        ctx.file('MODULE.bazel', 'module(name = "%s", version = "0.0.0")\n' % _module_name_for_repo(ctx.name))
+        ctx.file('MODULE.bazel', 'module(name = "%s", version = "0.0.0")\n' % ctx.attr.module_name)
 
     if ctx.attr.build_file_content and not ctx.path("BUILD").exists() and not ctx.path("BUILD.bazel").exists():
         ctx.file("BUILD.bazel", ctx.attr.build_file_content)
@@ -22,6 +18,7 @@ symlink_local_repository = repository_rule(
     attrs = {
         "path": attr.string(mandatory = True),
         "build_file_content": attr.string(default = ""),
+        "module_name": attr.string(default = ""),
     },
 )
 
@@ -37,6 +34,7 @@ def _yatc_local_repositories_impl(module_ctx):
     symlink_local_repository(
         name = "tommath",
         path = "vendor/github.com/libtom/libtommath",
+        module_name = "tommath",
         build_file_content = """
 config_setting(
     name = 'windows',
