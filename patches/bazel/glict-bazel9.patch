@@ -1,0 +1,60 @@
+diff --git a/MODULE.bazel b/MODULE.bazel
+new file mode 100644
+index 0000000..c80f3ed
+--- /dev/null
++++ b/MODULE.bazel
+@@ -0,0 +1,54 @@
++module(
++    name = "glict",
++    version = "0.0.0",
++)
++
++bazel_dep(name = "rules_libsdl12", version = "0.0.0")
++
++libsdl12 = use_extension("@rules_libsdl12//:libsdl12.bzl", "libsdl12_extension")
++use_repo(
++    libsdl12,
++    "libsdl12",
++    "x11repository",
++    "xcbrepository",
++    "libx11-dev",
++    "libxext-dev",
++    "libx11-6",
++    "x11proto-dev",
++    "libxrender-dev",
++    "libxcb1-dev",
++    "libxrandr-dev",
++    "libxau-dev",
++    "libx11-xcb-dev",
++    "libxdmcp-dev",
++    "xorg-sgml-doctools",
++    "libxcb1",
++    "libxau6",
++    "libxdmcp6",
++    "libalsaplayer-dev",
++    "libasound2-dev",
++    "libgl-dev",
++    "libglu1-mesa-dev",
++    "libgl1",
++    "libglu1-mesa",
++    "libglvnd0",
++    "libglx-mesa0",
++    "libglx0",
++    "libglapi-mesa",
++    "libx11-xcb1",
++    "libxext6",
++    "libxfixes3",
++    "libxxf86vm1",
++    "libxcb-glx0",
++    "libxcb-dri2-0",
++    "libxcb-dri3-0",
++    "libxcb-present0",
++    "libxcb-sync1",
++    "libxcb-xfixes0",
++    "libxshmfence1",
++    "libdrm2",
++    "libexpat1",
++    "libbsd0",
++    "libmd0",
++    "libxcb-shm0",
++)

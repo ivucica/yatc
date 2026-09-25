@@ -1,0 +1,61 @@
+diff --git a/tibia_data.bzl b/tibia_data.bzl
+index fc51165..3257a2a 100644
+--- a/tibia_data.bzl
++++ b/tibia_data.bzl
+@@ -48,6 +48,16 @@ def tibia_data_repositories():
+         tibia_data_repository(version)
+ 
+ 
++def _tibia_data_extension_impl(module_ctx):
++    del module_ctx
++    tibia_data_repositories()
++
++
++tibia_data_extension = module_extension(
++    implementation = _tibia_data_extension_impl,
++)
++
++
+ def tibia_data_repository(version):
+     """Create a Bazel repo from a downloaded Linux version's tarball.
+ 
+diff --git a/MODULE.bazel b/MODULE.bazel
+new file mode 100644
+index 0000000..dcf59fb
+--- /dev/null
++++ b/MODULE.bazel
+@@ -0,0 +1,34 @@
++module(
++    name = "rules_tibia",
++    version = "0.0.0",
++)
++
++tibia_data = use_extension("//:tibia_data.bzl", "tibia_data_extension")
++use_repo(
++    tibia_data,
++    "tibia790",
++    "tibia791",
++    "tibia792",
++    "tibia800",
++    "tibia810",
++    "tibia811",
++    "tibia822",
++    "tibia830",
++    "tibia831",
++    "tibia840",
++    "tibia841",
++    "tibia842",
++    "tibia850",
++    "tibia852",
++    "tibia853",
++    "tibia854",
++    "tibia860",
++    "tibia861",
++    "tibia900",
++    "tibia910",
++    "tibia920",
++    "tibia931",
++    "tibia946",
++    "tibia954",
++    "tibia960",
++)

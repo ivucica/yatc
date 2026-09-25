@@ -1,0 +1,131 @@
+diff --git a/libsdl12.bzl b/libsdl12.bzl
+index 4da5b99..8e53e13 100644
+--- a/libsdl12.bzl
++++ b/libsdl12.bzl
+@@ -44,3 +44,13 @@ def libsdl12_repositories():
+ #    However, the repos still need to exist even if only referenced in select()s in actual build targets (e.g. to link with libglu1-mesa-dev).
+ #
+ #    Let's instead do this in x11-helper.bzl for now.
++
++
++def _libsdl12_extension_impl(module_ctx):
++    del module_ctx
++    libsdl12_repositories()
++
++
++libsdl12_extension = module_extension(
++    implementation = _libsdl12_extension_impl,
++)
+diff --git a/x11-helper.bzl b/x11-helper.bzl
+index 44f9e86..bd9b098 100644
+--- a/x11-helper.bzl
++++ b/x11-helper.bzl
+@@ -801,14 +801,32 @@ def x11_repository():
+     )
+ 
+ 
++def _xcb_repository_rule_impl(ctx):
++    include_path = ctx.path(ctx.attr.include_path)
++    xcb_path = include_path.get_child("xcb")
++
++    ctx.file(
++        "BUILD.bazel",
++        "exports_files(glob(['xcb/**']), visibility = ['//visibility:public'])\n",
++    )
++
++    if xcb_path.exists:
++        ctx.symlink(xcb_path, "xcb")
++    else:
++        ctx.file("empty.txt", "")
++
++
++xcb_repository_rule = repository_rule(
++    implementation = _xcb_repository_rule_impl,
++    attrs = {
++        "include_path": attr.string(default = "/usr/include"),
++    },
++)
++
++
+ def xcb_repository():
+-    return native.new_local_repository(
++    return xcb_repository_rule(
+         name = "xcbrepository",
+-        build_file_content = "\n".join([
+-            "exports_files(glob(['xcb/**']), ",
+-            "              visibility = ['//visibility:public'])",
+-        ]),
+-        path = "/usr/include",
+     )
+ 
+ # Dependencies loaded by the built binary:
+diff --git a/MODULE.bazel b/MODULE.bazel
+new file mode 100644
+index 0000000..b5709a6
+--- /dev/null
++++ b/MODULE.bazel
+@@ -0,0 +1,64 @@
++module(
++    name = "rules_libsdl12",
++    version = "0.0.0",
++)
++
++com_google_googletest = use_repo_rule(
++    "@bazel_tools//tools/build_defs/repo:http.bzl",
++    "http_archive",
++)
++
++com_google_googletest(
++    name = "com_google_googletest",
++    urls = ["https://github.com/google/googletest/archive/5ab508a01f9eb089207ee87fd547d290da39d015.zip"],
++    strip_prefix = "googletest-5ab508a01f9eb089207ee87fd547d290da39d015",
++    sha256 = "755f9a39bc7205f5a0c428e920ddad092c33c8a1b46997def3f1d4a82aded6e1",
++)
++
++libsdl12 = use_extension("//:libsdl12.bzl", "libsdl12_extension")
++use_repo(
++    libsdl12,
++    "libsdl12",
++    "x11repository",
++    "xcbrepository",
++    "libx11-dev",
++    "libxext-dev",
++    "libx11-6",
++    "x11proto-dev",
++    "libxrender-dev",
++    "libxcb1-dev",
++    "libxrandr-dev",
++    "libxau-dev",
++    "libx11-xcb-dev",
++    "libxdmcp-dev",
++    "xorg-sgml-doctools",
++    "libxcb1",
++    "libxau6",
++    "libxdmcp6",
++    "libalsaplayer-dev",
++    "libasound2-dev",
++    "libgl-dev",
++    "libglu1-mesa-dev",
++    "libgl1",
++    "libglu1-mesa",
++    "libglvnd0",
++    "libglx-mesa0",
++    "libglx0",
++    "libglapi-mesa",
++    "libx11-xcb1",
++    "libxext6",
++    "libxfixes3",
++    "libxxf86vm1",
++    "libxcb-glx0",
++    "libxcb-dri2-0",
++    "libxcb-dri3-0",
++    "libxcb-present0",
++    "libxcb-sync1",
++    "libxcb-xfixes0",
++    "libxshmfence1",
++    "libdrm2",
++    "libexpat1",
++    "libbsd0",
++    "libmd0",
++    "libxcb-shm0",
++)

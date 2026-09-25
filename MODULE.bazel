@@ -1,0 +1,162 @@
+module(
+    name = "yatc",
+    version = "0.0.0",
+)
+
+bazel_dep(name = "glict", version = "0.0.0")
+bazel_dep(name = "rules_libsdl12", version = "0.0.0")
+bazel_dep(name = "rules_tibia", version = "0.0.0")
+
+local_path_override(
+    module_name = "glict",
+    path = "vendor/github.com/ivucica/glict",
+)
+local_path_override(
+    module_name = "rules_libsdl12",
+    path = "vendor/github.com/ivucica/rules_libsdl12",
+)
+local_path_override(
+    module_name = "rules_tibia",
+    path = "vendor/github.com/ivucica/rules_tibia",
+)
+
+http_archive = use_repo_rule(
+    "@bazel_tools//tools/build_defs/repo:http.bzl",
+    "http_archive",
+)
+local_repository = use_repo_rule(
+    "@bazel_tools//tools/build_defs/repo:local.bzl",
+    "local_repository",
+)
+new_local_repository = use_repo_rule(
+    "@bazel_tools//tools/build_defs/repo:local.bzl",
+    "new_local_repository",
+)
+
+local_repository(
+    name = "bazelregistry_sdl2",
+    path = "vendor/github.com/bazelregistry/sdl2",
+)
+
+http_archive(
+    name = "libsdlgfx",
+    url = "http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.24.tar.gz",
+    sha256 = "30ad38c3e17586e5212ce4a43955adf26463e69a24bb241f152493da28d59118",
+    type = "tar.gz",
+    build_file = "//:BUILD.libsdlgfx",
+    strip_prefix = "SDL_gfx-2.0.24",
+)
+
+new_local_repository(
+    name = "tommath",
+    path = "vendor/github.com/libtom/libtommath",
+    build_file_content = """
+config_setting(
+    name = 'windows',
+    values = {'host_cpu': 'x64_windows'},
+)
+config_setting(
+    name = 'windows_msys',
+    values = {'host_cpu': 'x64_windows_msys'},
+)
+config_setting(
+    name = 'windows_msvc',
+    values = {'host_cpu': 'x64_windows_msvc'},
+)
+cc_library(
+  name='tommath',
+  srcs=glob(['*.c']),
+  hdrs=glob(['*.h']),
+  visibility=['//visibility:public'],
+  defines = select({
+    '//conditions:default': [],
+    # https://github.com/libtom/libtommath/issues/87 -- no __int128 on MSVC, so we need to build with 32bit math.
+    '//:windows': ['MP_32BIT'],
+    '//:windows_msvc': ['MP_32BIT'],
+  }),
+  copts = select({
+    '//conditions:default': ['-isystem external/tommath'],
+    '//:windows': ['-I external/tommath'],
+    '//:windows_msvc': ['-I external/tommath'],
+  }),
+)
+""",
+)
+
+rules_tibia = use_extension("@rules_tibia//:tibia_data.bzl", "tibia_data_extension")
+use_repo(
+    rules_tibia,
+    "tibia790",
+    "tibia791",
+    "tibia792",
+    "tibia800",
+    "tibia810",
+    "tibia811",
+    "tibia822",
+    "tibia830",
+    "tibia831",
+    "tibia840",
+    "tibia841",
+    "tibia842",
+    "tibia850",
+    "tibia852",
+    "tibia853",
+    "tibia854",
+    "tibia860",
+    "tibia861",
+    "tibia900",
+    "tibia910",
+    "tibia920",
+    "tibia931",
+    "tibia946",
+    "tibia954",
+    "tibia960",
+)
+
+rules_libsdl12 = use_extension("@rules_libsdl12//:libsdl12.bzl", "libsdl12_extension")
+use_repo(
+    rules_libsdl12,
+    "libsdl12",
+    "x11repository",
+    "xcbrepository",
+    "libx11-dev",
+    "libxext-dev",
+    "libx11-6",
+    "x11proto-dev",
+    "libxrender-dev",
+    "libxcb1-dev",
+    "libxrandr-dev",
+    "libxau-dev",
+    "libx11-xcb-dev",
+    "libxdmcp-dev",
+    "xorg-sgml-doctools",
+    "libxcb1",
+    "libxau6",
+    "libxdmcp6",
+    "libalsaplayer-dev",
+    "libasound2-dev",
+    "libgl-dev",
+    "libglu1-mesa-dev",
+    "libgl1",
+    "libglu1-mesa",
+    "libglvnd0",
+    "libglx-mesa0",
+    "libglx0",
+    "libglapi-mesa",
+    "libx11-xcb1",
+    "libxext6",
+    "libxfixes3",
+    "libxxf86vm1",
+    "libxcb-glx0",
+    "libxcb-dri2-0",
+    "libxcb-dri3-0",
+    "libxcb-present0",
+    "libxcb-sync1",
+    "libxcb-xfixes0",
+    "libxshmfence1",
+    "libdrm2",
+    "libexpat1",
+    "libbsd0",
+    "libmd0",
+    "libxcb-shm0",
+)
