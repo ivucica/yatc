@@ -17,10 +17,10 @@ index 4da5b99..8e53e13 100644
 +    implementation = _libsdl12_extension_impl,
 +)
 diff --git a/x11-helper.bzl b/x11-helper.bzl
-index 44f9e86..bd9b098 100644
+index 44f9e86..6cb2ef6 100644
 --- a/x11-helper.bzl
 +++ b/x11-helper.bzl
-@@ -801,14 +801,32 @@ def x11_repository():
+@@ -801,14 +801,26 @@ def x11_repository():
      )
  
  
