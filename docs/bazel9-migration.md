@@ -18,7 +18,7 @@ Apply these patches before building with Bazel 9:
    - `git -C vendor/github.com/ivucica/rules_tibia apply patches/bazel/rules_tibia-bazel9.patch`
    - `git -C vendor/github.com/ivucica/rules_libsdl12 apply patches/bazel/rules_libsdl12-bazel9.patch`
    - `git -C vendor/github.com/ivucica/glict apply patches/bazel/glict-bazel9.patch`
-3. After step 2 has added the vendored `MODULE.bazel` files, and while running from a checkout whose `vendor/` submodules are populated, use Bazel 9 for the module-based build:
+3. After step 2 has added the vendored `MODULE.bazel` files, and while running from a checkout whose `vendor/` submodules are populated, ensure `www.ferzkopp.net` is reachable for `libsdlgfx`, then use Bazel 9 for the module-based build:
    - `USE_BAZEL_VERSION=9.0.0 bazelisk build --enable_bzlmod=true //:yatc --define=libsdl12_linux_deps_bin=true`
 4. Use Bazel 6.5.x for the legacy workspace-based build:
    - `USE_BAZEL_VERSION=6.5.0 bazelisk build --enable_bzlmod=false //:yatc --define=libsdl12_linux_deps_bin=true`
