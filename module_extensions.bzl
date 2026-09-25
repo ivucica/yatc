@@ -6,7 +6,7 @@ def _symlink_local_repository_impl(ctx):
             continue
         ctx.symlink(entry, entry.basename)
 
-    if not source.get_child("WORKSPACE").exists and not source.get_child("WORKSPACE.bazel").exists:
+    if not source.get_child("WORKSPACE").exists() and not source.get_child("WORKSPACE.bazel").exists():
         ctx.file("WORKSPACE.bazel", "workspace(name = %r)\n" % ctx.name)
 
     if ctx.attr.build_file_content:
@@ -54,13 +54,13 @@ cc_library(
   defines = select({
     '//conditions:default': [],
     # https://github.com/libtom/libtommath/issues/87 -- no __int128 on MSVC, so we need to build with 32bit math.
-    '//:windows': ['MP_32BIT'],
-    '//:windows_msvc': ['MP_32BIT'],
+    ':windows': ['MP_32BIT'],
+    ':windows_msvc': ['MP_32BIT'],
   }),
   copts = select({
     '//conditions:default': ['-isystem external/tommath'],
-    '//:windows': ['-I external/tommath'],
-    '//:windows_msvc': ['-I external/tommath'],
+    ':windows': ['-I external/tommath'],
+    ':windows_msvc': ['-I external/tommath'],
   }),
 )
 """,
