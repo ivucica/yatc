@@ -1,3 +1,7 @@
+def _module_name_for_repo(repo_name):
+    return repo_name.lower().replace("_", "-")
+
+
 def _symlink_local_repository_impl(ctx):
     source = ctx.path(ctx.attr.path)
 
@@ -7,7 +11,7 @@ def _symlink_local_repository_impl(ctx):
         ctx.symlink(entry, entry.basename)
 
     if not ctx.path("MODULE.bazel").exists() and not ctx.path("WORKSPACE").exists() and not ctx.path("WORKSPACE.bazel").exists():
-        ctx.file('MODULE.bazel', 'module(name = "%s", version = "0.0.0")\n' % ctx.name)
+        ctx.file('MODULE.bazel', 'module(name = "%s", version = "0.0.0")\n' % _module_name_for_repo(ctx.name))
 
     if ctx.attr.build_file_content and not ctx.path("BUILD").exists() and not ctx.path("BUILD.bazel").exists():
         ctx.file("BUILD.bazel", ctx.attr.build_file_content)
@@ -55,11 +59,13 @@ cc_library(
     '//conditions:default': [],
     # https://github.com/libtom/libtommath/issues/87 -- no __int128 on MSVC, so we need to build with 32bit math.
     ':windows': ['MP_32BIT'],
+    ':windows_msys': ['MP_32BIT'],
     ':windows_msvc': ['MP_32BIT'],
   }),
   copts = select({
     '//conditions:default': ['-isystem external/tommath'],
     ':windows': ['-I external/tommath'],
+    ':windows_msys': ['-I external/tommath'],
     ':windows_msvc': ['-I external/tommath'],
   }),
 )

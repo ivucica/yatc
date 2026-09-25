@@ -14,7 +14,7 @@ Apply these patches before building with Bazel 9:
 
 1. Initialize submodules:
    - `git submodule update --init`
-2. Apply the vendored repo patches from the repository root:
+2. Apply the vendored repo patches from the repository root. These commands modify the checked-out submodules in place, so rerun them after any submodule reset or update:
    - `git -C vendor/github.com/ivucica/rules_tibia apply patches/bazel/rules_tibia-bazel9.patch`
    - `git -C vendor/github.com/ivucica/rules_libsdl12 apply patches/bazel/rules_libsdl12-bazel9.patch`
    - `git -C vendor/github.com/ivucica/glict apply patches/bazel/glict-bazel9.patch`
