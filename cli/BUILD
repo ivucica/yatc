@@ -1,5 +1,7 @@
 # -*-Python-*-
 
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+
 config_setting(
   name = "login_only",
   define_values = {
@@ -290,4 +292,3 @@ cc_binary(
         ":dat2json_cli_lib",
     ],
 )
-

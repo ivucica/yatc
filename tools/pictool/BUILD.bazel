@@ -1,5 +1,7 @@
 # -*-Python-*-
 
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+
 cc_library(
     name = "picfuncs",
     srcs = ["picfuncs.c", "picfuncs.h",],
@@ -17,4 +19,3 @@ cc_binary(
     defines = ["BAZEL_BUILD=1"],
     visibility = ["//visibility:public"],
 )
-
