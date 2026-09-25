@@ -37,5 +37,6 @@ If Bazelisk cannot download Bazel or external archives due to DNS failures, allo
 - `releases.bazel.build`
 - `github.com`
 - `www.libsdl.org`
+- `www.ferzkopp.net` (still useful when validating `rules_libsdl12` outside this repository, even though this repo now vendors `SDL_gfx`)
 
 The first host is required to download the Bazel binary itself. The others are required by the SDL- and Tibia-related external repositories during fetch.
