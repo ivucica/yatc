@@ -17,10 +17,10 @@ index 4da5b99..8e53e13 100644
 +    implementation = _libsdl12_extension_impl,
 +)
 diff --git a/x11-helper.bzl b/x11-helper.bzl
-index 44f9e86..6cb2ef6 100644
+index 44f9e86..9d9d2a0 100644
 --- a/x11-helper.bzl
 +++ b/x11-helper.bzl
-@@ -801,14 +801,26 @@ def x11_repository():
+@@ -801,14 +801,23 @@ def x11_repository():
      )
  
  
@@ -30,14 +30,11 @@ index 44f9e86..6cb2ef6 100644
 +        "exports_files(glob(['xcb/**']), visibility = ['//visibility:public'])\n",
 +    )
 +
-+    ctx.symlink(ctx.path(ctx.attr.include_path).get_child("xcb"), "xcb")
++    ctx.symlink(ctx.path("/usr/include").get_child("xcb"), "xcb")
 +
 +
 +xcb_repository_rule = repository_rule(
 +    implementation = _xcb_repository_rule_impl,
-+    attrs = {
-+        "include_path": attr.string(default = "/usr/include"),
-+    },
 +)
 +
 +

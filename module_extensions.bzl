@@ -6,7 +6,7 @@ def _symlink_local_repository_impl(ctx):
             continue
         ctx.symlink(entry, entry.basename)
 
-    if not source.get_child("WORKSPACE").exists() and not source.get_child("WORKSPACE.bazel").exists():
+    if not source.get_child("MODULE.bazel").exists() and not source.get_child("WORKSPACE").exists() and not source.get_child("WORKSPACE.bazel").exists():
         ctx.file("WORKSPACE.bazel", "workspace(name = %r)\n" % ctx.name)
 
     if ctx.attr.build_file_content:

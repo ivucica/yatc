@@ -13,7 +13,7 @@ Apply these patches before building with Bazel 9:
 ## Exact porting steps
 
 1. Initialize submodules:
-   - `git submodule update --init --recursive`
+   - `git submodule update --init`
 2. Apply the vendored repo patches from the repository root:
    - `git -C vendor/github.com/ivucica/rules_tibia apply patches/bazel/rules_tibia-bazel9.patch`
    - `git -C vendor/github.com/ivucica/rules_libsdl12 apply patches/bazel/rules_libsdl12-bazel9.patch`
