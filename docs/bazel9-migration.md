@@ -18,7 +18,7 @@ Apply these patches before building with Bazel 9:
    - `git -C vendor/github.com/ivucica/rules_tibia apply patches/bazel/rules_tibia-bazel9.patch`
    - `git -C vendor/github.com/ivucica/rules_libsdl12 apply patches/bazel/rules_libsdl12-bazel9.patch`
    - `git -C vendor/github.com/ivucica/glict apply patches/bazel/glict-bazel9.patch`
-3. After step 2 has added the vendored `MODULE.bazel` files, and while running from a checkout whose `vendor/` submodules are still present at those exact paths for `local_path_override()` resolution, ensure `www.ferzkopp.net` is reachable so the root `MODULE.bazel` can fetch `libsdlgfx` using the checked-in `//:BUILD.libsdlgfx` label, then use Bazel 9.x for the module-based build. For example:
+3. After rerunning `git submodule update --init` if needed, and after step 2 has patched those checked-out `vendor/` submodules in place so `local_path_override()` can still resolve them at the same paths, ensure `www.ferzkopp.net` is reachable so the root `MODULE.bazel` can fetch `libsdlgfx` using the checked-in `//:BUILD.libsdlgfx` label, then use Bazel 9.x for the module-based build. For example:
    - `USE_BAZEL_VERSION=9.0.0 bazelisk build --enable_bzlmod=true //:yatc --define=libsdl12_linux_deps_bin=true`
 4. Use Bazel 6.5.x for the legacy workspace-based build:
    - `USE_BAZEL_VERSION=6.5.0 bazelisk build --enable_bzlmod=false //:yatc --define=libsdl12_linux_deps_bin=true`
