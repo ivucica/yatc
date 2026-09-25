@@ -25,18 +25,12 @@ index 44f9e86..bd9b098 100644
  
  
 +def _xcb_repository_rule_impl(ctx):
-+    include_path = ctx.path(ctx.attr.include_path)
-+    xcb_path = include_path.get_child("xcb")
-+
 +    ctx.file(
 +        "BUILD.bazel",
 +        "exports_files(glob(['xcb/**']), visibility = ['//visibility:public'])\n",
 +    )
 +
-+    if xcb_path.exists:
-+        ctx.symlink(xcb_path, "xcb")
-+    else:
-+        ctx.file("empty.txt", "")
++    ctx.symlink(ctx.path(ctx.attr.include_path).get_child("xcb"), "xcb")
 +
 +
 +xcb_repository_rule = repository_rule(

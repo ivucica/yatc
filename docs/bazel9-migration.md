@@ -19,13 +19,13 @@ Apply these patches before building with Bazel 9:
    - `git -C vendor/github.com/ivucica/rules_libsdl12 apply patches/bazel/rules_libsdl12-bazel9.patch`
    - `git -C vendor/github.com/ivucica/glict apply patches/bazel/glict-bazel9.patch`
 3. After step 2 has added the vendored `MODULE.bazel` files, use Bazel 9 for the module-based build:
-   - `bazelisk build //:yatc --define=libsdl12_linux_deps_bin=true`
+   - `USE_BAZEL_VERSION=9.0.0 bazelisk build //:yatc --define=libsdl12_linux_deps_bin=true`
 4. Use Bazel 6.5.x for the legacy workspace-based build:
    - `USE_BAZEL_VERSION=6.5.0 bazelisk build --enable_bzlmod=false //:yatc --define=libsdl12_linux_deps_bin=true`
 
 ## What changed
 
-- Added a root `MODULE.bazel` for YATC.
+- Added a root `MODULE.bazel` plus `module_extensions.bzl` helpers for YATC.
 - Added Bazel module files for `rules_tibia`, `rules_libsdl12`, and `glict`.
 - Added module extensions for `rules_tibia` and `rules_libsdl12` so their repository setup can be reused from `MODULE.bazel`.
 - Replaced `native.new_local_repository` in `rules_libsdl12`'s `xcb_repository()` helper with a repository rule that works in module resolution.

@@ -24,19 +24,6 @@ http_archive = use_repo_rule(
     "@bazel_tools//tools/build_defs/repo:http.bzl",
     "http_archive",
 )
-local_repository = use_repo_rule(
-    "@bazel_tools//tools/build_defs/repo:local.bzl",
-    "local_repository",
-)
-new_local_repository = use_repo_rule(
-    "@bazel_tools//tools/build_defs/repo:local.bzl",
-    "new_local_repository",
-)
-
-local_repository(
-    name = "bazelregistry_sdl2",
-    path = "vendor/github.com/bazelregistry/sdl2",
-)
 
 http_archive(
     name = "libsdlgfx",
@@ -47,40 +34,11 @@ http_archive(
     strip_prefix = "SDL_gfx-2.0.24",
 )
 
-new_local_repository(
-    name = "tommath",
-    path = "vendor/github.com/libtom/libtommath",
-    build_file_content = """
-config_setting(
-    name = 'windows',
-    values = {'host_cpu': 'x64_windows'},
-)
-config_setting(
-    name = 'windows_msys',
-    values = {'host_cpu': 'x64_windows_msys'},
-)
-config_setting(
-    name = 'windows_msvc',
-    values = {'host_cpu': 'x64_windows_msvc'},
-)
-cc_library(
-  name='tommath',
-  srcs=glob(['*.c']),
-  hdrs=glob(['*.h']),
-  visibility=['//visibility:public'],
-  defines = select({
-    '//conditions:default': [],
-    # https://github.com/libtom/libtommath/issues/87 -- no __int128 on MSVC, so we need to build with 32bit math.
-    '//:windows': ['MP_32BIT'],
-    '//:windows_msvc': ['MP_32BIT'],
-  }),
-  copts = select({
-    '//conditions:default': ['-isystem external/tommath'],
-    '//:windows': ['-I external/tommath'],
-    '//:windows_msvc': ['-I external/tommath'],
-  }),
-)
-""",
+yatc_local = use_extension("//:module_extensions.bzl", "yatc_local_repositories")
+use_repo(
+    yatc_local,
+    "bazelregistry_sdl2",
+    "tommath",
 )
 
 rules_tibia = use_extension("@rules_tibia//:tibia_data.bzl", "tibia_data_extension")
