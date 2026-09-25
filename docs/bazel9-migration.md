@@ -18,7 +18,7 @@ Apply these patches before building with Bazel 9:
    - `git -C vendor/github.com/ivucica/rules_tibia apply patches/bazel/rules_tibia-bazel9.patch`
    - `git -C vendor/github.com/ivucica/rules_libsdl12 apply patches/bazel/rules_libsdl12-bazel9.patch`
    - `git -C vendor/github.com/ivucica/glict apply patches/bazel/glict-bazel9.patch`
-3. After rerunning `git submodule update --init` if needed, and after step 2 has patched those checked-out `vendor/` submodules in place so `local_path_override()` can still resolve them at the same paths, ensure `www.ferzkopp.net` is reachable so the root `MODULE.bazel` can fetch `libsdlgfx` using the checked-in `//:BUILD.libsdlgfx` label, then use Bazel 9.x for the module-based build. For example:
+3. After rerunning `git submodule update --init` if needed, and after step 2 has patched those checked-out `vendor/` submodules in place so `local_path_override()` can still resolve them at the same paths, ensure the vendored `third_party/SDL_gfx-2.0.24` directory is present, then use Bazel 9.x for the module-based build. For example:
    - `USE_BAZEL_VERSION=9.0.0 bazelisk build --enable_bzlmod=true //:yatc --define=libsdl12_linux_deps_bin=true`
 4. Use Bazel 6.5.x for the legacy workspace-based build:
    - `USE_BAZEL_VERSION=6.5.0 bazelisk build --enable_bzlmod=false //:yatc --define=libsdl12_linux_deps_bin=true`
@@ -37,6 +37,5 @@ If Bazelisk cannot download Bazel or external archives due to DNS failures, allo
 - `releases.bazel.build`
 - `github.com`
 - `www.libsdl.org`
-- `www.ferzkopp.net`
 
 The first host is required to download the Bazel binary itself. The others are required by the SDL- and Tibia-related external repositories during fetch.
